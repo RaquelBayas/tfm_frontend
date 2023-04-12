@@ -1,0 +1,33 @@
+<div>
+    <div class="wrapper">
+        <div class="container main">
+            <div class="row">
+                <div class="col-md-6 side-image">
+                    <img src="src/assets/home.jpg" alt="">
+                </div>
+                <div class="col-md-6 right">
+                     <div class="input-box">
+                        <header>Iniciar sesión</header>
+                        <form [formGroup]="loginForm" (ngSubmit)="login()">
+                            <div class="input-field">
+                                <input type="text" class="input" id="email" formControlName="email" required autocomplete="off" placeholder="Email">
+                                
+                            </div>
+                            <div class="input-field">
+                                <input type="password" class="input" id="password" formControlName="password" required placeholder="Contraseña">
+                            
+                            </div>
+                            <div class="input-field">
+                                <input type="submit" class="submit" value="Iniciar sesion">
+                            </div>
+                        </form>
+                        <div class="signin">
+                            <span>¿Has olvidado tu contraseña?</span>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
