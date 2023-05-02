@@ -1,0 +1,11 @@
+<div *ngIf="data.poster_path == null; then thenBlock; else elseBlock"></div>
+<ng-template #thenBlock>
+  <img src="assets/no-image-available.png" alt="figure" class="no-image"  />
+</ng-template>
+<ng-template #elseBlock>
+  <img
+    src="{{ imgUrl + data.poster_path }}"
+    alt="figure"
+    class="image"
+  />
+</ng-template>

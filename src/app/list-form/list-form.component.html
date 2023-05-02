@@ -1,0 +1,54 @@
+<div>
+    <div>
+        <h2>Crear lista</h2>
+        <div class="container">
+            <form [formGroup]="listForm" (ngSubmit)="onSubmit()" class="list-form">
+              <mat-form-field appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input matInput formControlName="name" required>
+              </mat-form-field>
+          
+              <mat-form-field appearance="outline">
+                <mat-label>Descripción</mat-label>
+                <textarea matInput formControlName="description"></textarea>
+              </mat-form-field>
+          
+              <mat-radio-group formControlName="privacy" class="privacy-radio-group">
+                <mat-radio-button value="public">Public</mat-radio-button>
+                <mat-radio-button value="private">Private</mat-radio-button>
+              </mat-radio-group>
+
+              <mat-form-field >
+                <input matInput #searchQuery (keyup)="searchMovies($event)"  placeholder="Search...">
+              </mat-form-field>
+              <ul>
+                <li *ngFor="let movie of searchResults">
+                  <input type="checkbox" class="checkboxSquare" [checked]="isSelected(movie)" (change)="onSelect(movie)">
+                  {{ movie.title }}
+                </li>
+              </ul>
+              
+
+              <mat-form-field >
+                <input matInput  placeholder="Añadir a lista...">
+              </mat-form-field>
+
+              <div *ngIf="selectedMovies.length">
+                <h3>Películas Seleccionadas:</h3>
+                <ul>
+                  <li *ngFor="let movie of selectedMovies">
+                    <img [src]="getMoviePosterUrl(movie.poster_path)" alt="{{ movie.title }}">
+                    <h4>{{ movie.title }}</h4>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="button-container">
+                <button mat-raised-button type="submit">Create</button>
+              </div>
+            </form>
+          </div>
+          
+          
+    </div>
+</div>

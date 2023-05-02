@@ -1,0 +1,15 @@
+<p>home-user works!</p>
+<div>
+    <input type="search" [(ngModel)]="query" placeholder="Buscar...">
+    <button (click)="search()">Search</button>
+    <ul>
+      <li *ngFor="let movie of movies">{{ movie.title }}</li>
+    </ul>
+    <div class="container">
+      <div class="row justify-content-around">
+        <div *ngFor="let movie of movies" class="col-md" [routerLink]="['/item', movie.id]">
+          <img [src]="baseUrl + 'w200' + movie.poster_path" alt="" >
+      </div>
+      </div>
+    </div>
+</div>

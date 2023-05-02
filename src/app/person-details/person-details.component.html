@@ -1,0 +1,38 @@
+<div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-4" *ngIf="person">
+        <img
+          src="{{ imgUrl + person.profile_path }}"
+          alt="{{ person.name }}"
+          class="mx-auto d-block"
+        />
+      </div>
+      <div class="col-md-8">
+        <h2>{{ person.name }}</h2>
+        <p>{{ person.biography }}</p>
+        <p>Fecha de nacimiento: {{ person.birthday }}</p>
+        <p>Lugar de nacimiento: {{ person.place_of_birth }}</p>
+        <p *ngIf="person.deathday != null">Fecha de fallecimiento: {{ person.deathday }}</p>
+        <p>Redes sociales: </p>
+        <ul class="list-unstyled">
+          <li *ngIf="socialNetworks.facebook_id"><a href="https://www.facebook.com/{{ socialNetworks.facebook_id }}" target="_blank">Facebook</a></li>
+          <li *ngIf="socialNetworks.instagram_id"><a href="https://www.instagram.com/{{ socialNetworks.instagram_id }}" target="_blank">Instagram</a></li>
+          <li *ngIf="socialNetworks.twitter_id"><a href="https://twitter.com/{{ socialNetworks.twitter_id }}" target="_blank">Twitter</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div>
+    <h5 class="text-center" style="color: red">Movies Acted</h5>
+    <div class="container-credits">
+       <div class="person" *ngFor="let credit of credits.cast">
+      <app-card [data]="credit"></app-card>
+    </div>
+    </div>
+   
+  </div>
+
+
+
+</div>

@@ -1,0 +1,8 @@
+<div class="container" (infiniteScroll)="onScroll()">
+    <div class="row justify-content-around" >
+      <div *ngFor="let movie of movies" [routerLink]="['/item', movie.id]" class="col-md">
+        <img [src]="movie.imageUrl" alt="">
+        <br>
+    </div>
+    </div>
+</div>

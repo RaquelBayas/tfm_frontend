@@ -10,7 +10,12 @@
                         <header>Crear cuenta</header>
                         <form [formGroup]="registerForm" (ngSubmit)="register()">
                             <div class="input-field">
+                                <input type="text" class="input" id="username" formControlName="username" required autocomplete="off" placeholder="Username">
+                               
+                            </div>
+                            <div class="input-field">
                                 <input type="text" class="input" id="email" formControlName="email" required autocomplete="off" placeholder="Email">
+                                
                             </div>
                             <div class="input-field">
                                 <input type="password" class="input" id="password" formControlName="password" required placeholder="Contraseña">

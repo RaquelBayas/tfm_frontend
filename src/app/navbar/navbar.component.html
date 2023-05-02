@@ -1,9 +1,17 @@
 
 <mat-toolbar color="primary">MyList
     <div class="space"></div>
-    <a mat-button>Inicio</a>
-    <a mat-button>Catálogo</a>
+    <a mat-button routerLink="/">Inicio</a>
+    <a mat-button routerLink="catalog">Catálogo</a>
+    <a mat-button routerLink="lists">Listas</a>
     <input type="search" placeholder="Buscar">
-    <a mat-button routerLink="register" routerLinkActive="active">Cuenta</a>
+    
+    <a mat-button *ngIf="isLoggedIn" [matMenuTriggerFor]="menu">Perfil</a>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="profile">Perfil</button>
+        <button mat-menu-item>Ajustes</button>
+        <button mat-menu-item (click)="logout()">Cerrar sesión</button>
+      </mat-menu>
+    <a mat-button *ngIf="!isLoggedIn" routerLink="register">Cuenta</a>
 </mat-toolbar>
 

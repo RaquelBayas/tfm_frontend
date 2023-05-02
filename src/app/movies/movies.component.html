@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="container-content" *ngIf="movie">
+        <h1>{{movie.title}}</h1>
+        <div class="content-details">
+          <img [src]="imageUrl" alt="">
+          <p>{{movie.overview}}</p>
+        
+          
+        </div>
+    </div>
+
+</div>
+<div class="carousel-container">
+  <ngx-slick-carousel class="carousel" [config]="slideConfig">
+    <div ngxSlickItem *ngFor="let actor of movieDetails.castList" class="slide-card" [routerLink]="['/person', actor.id]">
+      <img class="circular-img" [src]="'https://image.tmdb.org/t/p/w500' + actor.profile_path" alt="{{ actor.name }} profile">
+      <p class="actor-name">{{ actor.name }}</p>
+    </div>
+  </ngx-slick-carousel>
+</div>
