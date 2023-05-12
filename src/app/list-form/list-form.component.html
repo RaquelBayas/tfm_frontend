@@ -1,54 +1,64 @@
 <div>
-    <div>
-        <h2>Crear lista</h2>
-        <div class="container">
-            <form [formGroup]="listForm" (ngSubmit)="onSubmit()" class="list-form">
-              <mat-form-field appearance="outline">
-                <mat-label>Nombre</mat-label>
-                <input matInput formControlName="name" required>
-              </mat-form-field>
-          
-              <mat-form-field appearance="outline">
-                <mat-label>Descripción</mat-label>
-                <textarea matInput formControlName="description"></textarea>
-              </mat-form-field>
-          
-              <mat-radio-group formControlName="privacy" class="privacy-radio-group">
-                <mat-radio-button value="public">Public</mat-radio-button>
-                <mat-radio-button value="private">Private</mat-radio-button>
-              </mat-radio-group>
+  <div>
+    <h2>Crear lista</h2>
+    <div class="container">
+      <form [formGroup]="listForm" (ngSubmit)="onSubmit()" class="list-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="title" required />
+        </mat-form-field>
 
-              <mat-form-field >
-                <input matInput #searchQuery (keyup)="searchMovies($event)"  placeholder="Search...">
-              </mat-form-field>
-              <ul>
-                <li *ngFor="let movie of searchResults">
-                  <input type="checkbox" class="checkboxSquare" [checked]="isSelected(movie)" (change)="onSelect(movie)">
-                  {{ movie.title }}
-                </li>
-              </ul>
-              
+        <mat-form-field appearance="outline">
+          <mat-label>Descripción</mat-label>
+          <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
 
-              <mat-form-field >
-                <input matInput  placeholder="Añadir a lista...">
-              </mat-form-field>
+        <mat-radio-group formControlName="privacy" class="privacy-radio-group">
+          <mat-radio-button value="public">Public</mat-radio-button>
+          <mat-radio-button value="private">Private</mat-radio-button>
+        </mat-radio-group>
+        <input type="hidden" formControlName="userId" [value]="userId" />
 
-              <div *ngIf="selectedMovies.length">
-                <h3>Películas Seleccionadas:</h3>
-                <ul>
-                  <li *ngFor="let movie of selectedMovies">
-                    <img [src]="getMoviePosterUrl(movie.poster_path)" alt="{{ movie.title }}">
-                    <h4>{{ movie.title }}</h4>
-                  </li>
-                </ul>
-              </div>
+        <mat-form-field>
+          <input
+            matInput
+            #searchQuery
+            (keyup)="searchMovies($event)"
+            placeholder="Search..."
+          />
+        </mat-form-field>
+        <div class="searchResults">
+          <ul class="listSearch">
+            <li *ngFor="let movie of searchResults">
+              <input
+                type="checkbox"
+                class="checkboxSquare"
+                [checked]="isSelected(movie)"
+                (change)="onSelect(movie)"
+              />
+              {{ movie.title }}
+            </li>
+          </ul>
+        </div>
 
-              <div class="button-container">
-                <button mat-raised-button type="submit">Create</button>
-              </div>
-            </form>
-          </div>
-          
-          
+        <div class="button-container">
+          <button mat-raised-button type="submit">Create</button>
+        </div>
+      </form>
+
+      <div class="selectedMoviesContainer" *ngIf="selectedMovies.length">
+        <h3>Películas Seleccionadas:</h3>
+        <ul class="selectedMoviesList">
+          <li *ngFor="let movie of selectedMovies">
+            <img
+              class="selectedMovieImg"
+              [src]="getMoviePosterUrl(movie.poster_path)"
+              alt="{{ movie.title }}"
+            />
+            <h4>{{ movie.title }}</h4>
+          </li>
+        </ul>
+      </div>
     </div>
+  </div>
 </div>

@@ -35,6 +35,10 @@ import {MatMenu, MatMenuModule} from '@angular/material/menu';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PersonComponent } from './person/person.component';
 import { PersonDetailsComponent } from './person-details/person-details.component';
+import { OtherProfileComponent } from './other-profile/other-profile.component';
+import { ModalComponent } from './shared/modal/modal.component';
+import { StarRatingComponent } from './star-rating/star-rating.component';
+
 
 @NgModule({
   declarations: [
@@ -53,7 +57,10 @@ import { PersonDetailsComponent } from './person-details/person-details.componen
     HomeComponent,
     ProfileDetailsComponent,
     PersonComponent,
-    PersonDetailsComponent
+    PersonDetailsComponent,
+    OtherProfileComponent,
+    ModalComponent,
+    StarRatingComponent
   ],
   imports: [
     BrowserModule,

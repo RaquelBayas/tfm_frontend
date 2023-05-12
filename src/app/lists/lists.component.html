@@ -1,6 +1,18 @@
 <div>
-    <h1>Listas</h1>
-    <button [routerLink]="['/listForm']">Crear lista</button>
-
+  <h1>Listas</h1>
+  <button [routerLink]="['/listForm']">Crear lista</button>
+  <div class="container">
+    <div class="row" *ngFor="let list of lists" >
+      <h3>{{ list.title }}</h3>
+      <p>{{ list.description }}</p>
+      <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
+        <div *ngFor="let movie of list.selectedMovies" class="movie">
+          <div>
+            <p>{{ movie.title }}</p>
+            <img *ngIf="movie.poster_path" [src]="movie.poster_path" alt="{{ movie.title }}" />
+          </div>
+        </div>
+      </ngx-slick-carousel>      
+    </div>
+  </div>
 </div>
-

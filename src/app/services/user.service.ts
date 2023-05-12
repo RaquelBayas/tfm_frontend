@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../model/user';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, catchError, map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  apiUrl = 'http://localhost:3002/api';
+  apiUrl = 'http://localhost:8080/api';
   
   constructor(private http: HttpClient) { }
 
-  login(user: User): Observable<any> {
-    return this.http.post<User>('http://localhost:3002/api/login',user).pipe(
+  login(user:any): Observable<any> {
+    return this.http.post<User>('http://localhost:8080/api/auth/signin',user).pipe(
       tap((response: any) => {
         localStorage.setItem('token', response.token);
         console.log("response login:",response);
@@ -20,7 +20,7 @@ export class UserService {
   }
 
   register(user: User): Observable<User> {
-    return this.http.post<User>('http://localhost:3002/api/signup',user);
+    return this.http.post<User>('http://localhost:8080/api/auth/signup',user);
   }
 
   registerUser(user:User): Observable<any> {
@@ -49,6 +49,7 @@ export class UserService {
     );
   }
 
+  /*
   getUserEmail(): Observable<any> {
     const token = localStorage.getItem('token');
     console.log("token user serv. ",token);
@@ -72,9 +73,13 @@ export class UserService {
       console.log("data:",data);
       return data;
     }))
-  
-  }
+  }*/
 
+
+  getUserByUsername(username: string): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/users?username=${username}`);
+  }
+  
   getToken(): string {
     return localStorage.getItem('token')!;
   }
@@ -83,3 +88,5 @@ export class UserService {
     return this.getToken() !== null;
   }
 }
+
+

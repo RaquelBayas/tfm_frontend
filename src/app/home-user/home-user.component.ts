@@ -17,6 +17,10 @@ export class HomeUserComponent {
   
   constructor(private movieService: MovieService) { }
 
+  Handle(event:number) {
+    alert(`Rating: ${event}`);
+  }
+
   search() {
     this.movieService.searchMovies(this.query)
       .subscribe((response:any) => {

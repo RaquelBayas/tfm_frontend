@@ -1,9 +1,17 @@
 img {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
 }
 
 .userProfileImg {
     border-radius: 15px;
     
+}
+
+.container {
+    background-color: yellow;
+}
+
+.col-md-8 {
+    margin: auto;
 }

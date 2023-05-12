@@ -24,6 +24,8 @@
     "@ng-bootstrap/ng-bootstrap": "^14.0.1",
     "bootstrap": "^5.2.3",
     "jquery": "^3.6.4",
+    "jwt-decode": "^3.1.2",
+    "ng2-completer": "^9.0.1",
     "ngx-cookie-service": "^15.0.0",
     "ngx-infinite-scroll": "^15.0.0",
     "ngx-slick-carousel": "^15.0.0",

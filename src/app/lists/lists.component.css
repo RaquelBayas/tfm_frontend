@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  width: 100%;
+}
+
+.wrapperList {
+}
+
+.moviesList {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.movie {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: auto;
+}
+img {
+  width: 185px;
+}
+.row.ng-star-inserted {
+  width: 100%;
+}
+.carousel {
+  background-color: beige;
+  width: 100%;
+  margin: 0 auto;
+  padding-left: 5%;
+  padding-right: 5%;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  overflow-x: auto;
+}

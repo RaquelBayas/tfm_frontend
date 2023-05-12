@@ -23,7 +23,19 @@ export class MovieService {
     ));
   }
 
-  getMovies(): Observable<any> {
+  getMoviesFromList(listId: number): Observable<any> {
+    return this.http.get(`${appConfig.tmdb.apiUrl}list/${listId}?api_key=${this.apiKey}&language=es-ES`)
+      .pipe(
+        map((response: any) => {
+          console.log("GET MOVIES FROM LIST:",response);
+          return response.items;
+        })
+      );
+  }
+  
+
+  // Obtener películas populares del catálogo
+  getPopularMovies(): Observable<any> {
     return this.http.get(`${appConfig.tmdb.apiUrl}movie/popular?api_key=${this.apiKey}&language=es-ES`)
     .pipe((
       map((response:any) => {
@@ -33,6 +45,7 @@ export class MovieService {
   }
 
   getImages(query:string) {
+    console.log("QUERY IMG: ",query);
     if (!query) {
       return 'assets/images/placeholder.png';
     }

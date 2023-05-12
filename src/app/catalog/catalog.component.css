@@ -1,3 +1,33 @@
-.catalog { 
-    overflow: auto;
+.catalog {
+  overflow: auto;
+}
+
+.modal-show {
+  display: block;
+  /* otras reglas CSS para personalizar la apariencia del modal */
+}
+
+.modal {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-header {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.modal-body {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+.modal-content {
+  /* Agrega el tamaño del modal */
+  width: 100%;
+  /* Agrega un margen para separar el contenido del modal del borde */
+  margin: 20px;
+  /* Agrega un fondo blanco para el contenido del modal */
+  background-color: #fff;
 }

@@ -1,12 +1,30 @@
-<p>profile-details works!</p>
-
-
-<div class="row">
-    <div class="column">
-        <img src="../../assets/home.png" alt="" class="userProfileImg">
+<div class="container">
+  <div class="row"> 
+    <div class="col-md-2 text-center">
+      <!-- Imagen de perfil -->
+      <img class="img-fluid rounded-circle mb-3" src="https://via.placeholder.com/150x150" alt="Imagen de perfil">
     </div>
-    <div class="column" *ngIf="username">
-        <h2>{{user.username}}</h2>
+    <div class="col-md-6">
+      <!-- Nombre de usuario -->
+      <h3 *ngIf="userData">{{ userData.username }}</h3>
     </div>
+    <div class="col-md-4">
+      <p>Followers</p>
+    </div>
+  </div>
 </div>
 
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
+        <!-- Botón para cambiar la lista de películas -->
+        <select class="btn btn-secondary dropdown-toggle" type="button" [(ngModel)]="listId" (change)="onListChange($any($event.target).value)">
+          <option *ngFor="let list of lists" [value]="list.id">{{ list.title }}</option>
+        </select>        
+        <!-- Galería -->
+        <app-catalog [lists]="lists" [userId]="userId" [source]="'lists'" [modalIsOpen]="modalIsOpen"></app-catalog>
+      </div>
+    </div>
+  </div>
+  
+  

@@ -8,6 +8,7 @@ import {
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +21,7 @@ export class LoginComponent {
   constructor(
     private builder: FormBuilder,
     private userService: UserService,
+    private authService: AuthService,
     private router: Router,
     private cookieService: CookieService
   ) {
@@ -28,7 +30,7 @@ export class LoginComponent {
 
   createForm() {
     this.loginForm = this.builder.group({
-      email: ['', [Validators.required, Validators.min(1)]],
+      username: ['', [Validators.required, Validators.min(1)]],
       password: ['', [Validators.required, Validators.min(1)]],
     });
   }
@@ -36,14 +38,14 @@ export class LoginComponent {
   login() {
     if (this.loginForm.valid) {
       const user = {
-        username: "",
-        email: this.loginForm.value.email,
+        username: this.loginForm.value.username,
         password: this.loginForm.value.password,
       };
       this.userService.login(user).subscribe(
         (msg) => {
-          console.log("data:",msg);
-          this.cookieService.set('token',msg.token);
+          console.log("data:",msg.auth_token);
+          this.cookieService.set('token',msg.auth_token);
+          this.authService.setToken(msg.auth_token);
           this.router.navigate(['/home-user']);
           console.log('Login: successful');
         },

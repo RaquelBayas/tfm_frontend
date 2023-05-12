@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/internal/Observable';
 import { HttpClient } from '@angular/common/http';
 
 
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -23,7 +22,8 @@ export class RegisterComponent {
     this.registerForm = this.builder.group({
       username: ['',[Validators.required, Validators.min(3)]],
       email: ['', [Validators.required, Validators.min(1)]],
-      password: ['', [Validators.required, Validators.min(1)]]
+      password: ['', [Validators.required, Validators.min(1)]],
+      profileImg: ['']
     });
   }
 
