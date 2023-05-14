@@ -12,13 +12,14 @@ export class StarRatingComponent implements OnInit {
   @Input() selectedStar: number = 0;
   previousSelection = 0;
 
+  @Input() reviewRating!: number;
   @Output() onRating: EventEmitter<number> = new EventEmitter<number>();
   
   constructor() {}
 
   ngOnInit() {
     this.maxRatingArr = Array(this.maxRating).fill(0);
-
+    this.selectedStar = this.reviewRating;
   }
 
   HandleMouseEnter(index: number) {

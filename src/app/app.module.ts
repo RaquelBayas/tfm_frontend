@@ -38,6 +38,9 @@ import { PersonDetailsComponent } from './person-details/person-details.componen
 import { OtherProfileComponent } from './other-profile/other-profile.component';
 import { ModalComponent } from './shared/modal/modal.component';
 import { StarRatingComponent } from './star-rating/star-rating.component';
+import { ReviewComponent } from './review/review.component';
+import { SettingsComponent } from './settings/settings.component';
+import { SearchResultsComponent } from './search-results/search-results.component';
 
 
 @NgModule({
@@ -60,7 +63,10 @@ import { StarRatingComponent } from './star-rating/star-rating.component';
     PersonDetailsComponent,
     OtherProfileComponent,
     ModalComponent,
-    StarRatingComponent
+    StarRatingComponent,
+    ReviewComponent,
+    SettingsComponent,
+    SearchResultsComponent
   ],
   imports: [
     BrowserModule,

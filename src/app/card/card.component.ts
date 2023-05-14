@@ -9,6 +9,7 @@ export class CardComponent implements OnInit {
   @Input() data!: any;
   imgUrl: string = 'https://image.tmdb.org/t/p/w200';
   @Input() isCollections: boolean = false;
+  @Input() isPerson: boolean = false;
 
   constructor() {}
 

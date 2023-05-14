@@ -1,11 +1,27 @@
-<div *ngIf="data.poster_path == null; then thenBlock; else elseBlock"></div>
-<ng-template #thenBlock>
-  <img src="assets/no-image-available.png" alt="figure" class="no-image"  />
-</ng-template>
-<ng-template #elseBlock>
-  <img
-    src="{{ imgUrl + data.poster_path }}"
-    alt="figure"
-    class="image"
-  />
-</ng-template>
+<div *ngIf="data.poster_path">
+  <div *ngIf="data.poster_path == null; then thenBlock; else elseBlock"></div>
+  <ng-template #thenBlock>
+    <div class="card" >
+      <img src="assets/no-image-available.png" alt="figure" class="no-image" />
+      <div class="card-body">
+        <h2 class="card-title">{{ data.title }}</h2>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #elseBlock>
+    <div class="card" [routerLink]="['/item', data.id]">
+      <img src="{{ imgUrl + data.poster_path }}" alt="figure" class="card-img-top" />
+      <div class="card-body">
+        <h2 class="card-title">{{ data.title }}</h2>
+      </div>
+    </div>    
+  </ng-template>
+</div>
+<div *ngIf="data.profile_path">
+  <div class="card" [routerLink]="['/person', data.id]" >
+    <img src="{{ imgUrl + data.profile_path }}" alt="figure" class="card-img-top" />
+    <div class="card-body">
+      <h2 class="card-title">{{ data.name }}</h2>
+    </div>
+  </div>
+</div>

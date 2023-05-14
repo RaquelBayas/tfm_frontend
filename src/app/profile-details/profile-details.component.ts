@@ -8,6 +8,7 @@ import jwtDecode from 'jwt-decode';
 import { ListService } from '../services/list.service';
 import { MovieService } from '../services/movie.service';
 import { MovieDetails } from '../model/movie-details';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-details',
@@ -25,6 +26,9 @@ export class ProfileDetailsComponent {
   token!: string;
   lists: any[] = [];
 
+  currentUser: any;
+  viewedUser: any;
+
   modalIsOpen!: boolean;
   selectedMovie: MovieDetails | undefined;
 
@@ -36,25 +40,48 @@ export class ProfileDetailsComponent {
     private authService: AuthService,
     private cookieService: CookieService,
     private listService: ListService,
-    private movieService: MovieService
+    private movieService: MovieService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
     this.token = this.cookieService.get('token');
     this.userData = jwtDecode(this.token);
     this.userId = this.userData.id;
-    console.log('userdata:', this.userData.username);
+    console.log('userdata:', this.userData.username, ' token.', this.token, " userId:",this.userId);
     //this.getLists();
 
-    this.listService.getListsByUser(this.userData.id).subscribe((response) => {
+    // Define this.currentUser
+    this.currentUser = { id: this.userData.id, username: this.userData.username};
+
+    const username = this.route.snapshot.paramMap.get('username');
+    console.log("profile-details-username:",username + " current: "+this.currentUser.username);
+    // Comprueba si el nombre de usuario es el del usuario actual
+    if (username === this.currentUser.username) {
+      // Si es el usuario actual, muestra su perfil
+      this.viewedUser = this.currentUser;
+      this.getListsByUser(this.viewedUser.id);
+    } else {
+      // Si es otro usuario, carga su perfil desde el servidor
+      this.loadUserProfile(username!);
+    }
+  }
+
+  loadUserProfile(username: string) {
+    this.userService.getUserByUsername(username).subscribe((response) => {
+      this.viewedUser = response;
+      console.log('loadUserProfile: ', response);
+    });
+  }
+
+  getListsByUser(id: number) {
+    this.listService.getListsByUser(id).subscribe((response) => {
       this.lists = response;
       this.listId = this.lists.length > 0 ? this.lists[0].id : null;
-      console.log("PROFILE-DETAILS-LISTID:",this.listId);
+      console.log('PROFILE-DETAILS-LISTID:', this.listId);
       this.catalogComponent!.getMovies(this.listId, this.userData.id!);
     });
-    
-    
-    
   }
 
   //Esto devuelve todas las listas de la bbdd
@@ -75,7 +102,7 @@ export class ProfileDetailsComponent {
   }
 
   onListChange(listId: number): void {
-    this.catalogComponent!.getMovies(listId, this.userData.id!);
+    this.catalogComponent!.getMovies(listId, this.viewedUser.id!); //this.userData.id
   }
 
   openModal(movie: MovieDetails) {
@@ -86,5 +113,9 @@ export class ProfileDetailsComponent {
   closeModal() {
     this.selectedMovie = undefined;
     this.modalIsOpen = false;
+  }
+
+  visitProfile(id: number): void {
+    this.router.navigate(['/profile', id]);
   }
 }

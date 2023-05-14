@@ -21,14 +21,13 @@ export class CatalogComponent implements OnInit {
   @Input() userId!: number;
   @Input() source: string = 'catalog';
   @Input() selectedListId!: number;
- modalIsOpen!: boolean;
+  modalIsOpen!: boolean;
 
   ngOnInit() {
     this.getMovies();
     this.isProfile = this.route.snapshot.data['isProfile'];
-    console.log("CATALOG-COMPONENT: PROFILE - ",this.isProfile);
-    console.log("CATALOG-COMPONENT: MODALISOPEN - ",this.modalIsOpen);
-
+    console.log('CATALOG-COMPONENT: PROFILE - ', this.isProfile);
+    console.log('CATALOG-COMPONENT: MODALISOPEN - ', this.modalIsOpen);
   }
 
   constructor(
@@ -36,8 +35,7 @@ export class CatalogComponent implements OnInit {
     private movieService: MovieService,
     private listService: ListService,
     private router: Router
-  ) {
-  }
+  ) {}
 
   getMovies(listId?: number, userId?: number): void {
     if (this.source === 'catalog') {
@@ -55,13 +53,11 @@ export class CatalogComponent implements OnInit {
           .getListByIdAndUserId(listId, userId)
           .subscribe((response: any) => {
             this.movies = response.selectedMovies;
-            console.log("catalog-movies:",this.movies);
             this.totalPages = response.total_pages;
             this.movies.forEach((movie) => {
               this.movieService
                 .getMovieDetails(movie.id)
                 .subscribe((response: any) => {
-                
                   movie.imageUrl = this.movieService.getImages(
                     response.poster_path
                   );
@@ -85,12 +81,12 @@ export class CatalogComponent implements OnInit {
 
   openModal() {
     this.modalIsOpen = true;
-    console.log("abrir modal",this.modalIsOpen);
+    console.log('abrir modal', this.modalIsOpen);
   }
-  
+
   closeModal() {
     // Lógica para cerrar el modal
     this.modalIsOpen = false;
-    console.log("cerrar modal");
+    console.log('cerrar modal');
   }
 }

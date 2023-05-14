@@ -1,0 +1,5 @@
+.searchResultsPeople, .searchResultsMovies, .searchResultsSeries {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}

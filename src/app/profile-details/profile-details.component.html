@@ -6,14 +6,21 @@
     </div>
     <div class="col-md-6">
       <!-- Nombre de usuario -->
-      <h3 *ngIf="userData">{{ userData.username }}</h3>
+      <h3 *ngIf="viewedUser">{{ viewedUser.username }}</h3>
     </div>
     <div class="col-md-4">
       <p>Followers</p>
     </div>
   </div>
 </div>
-
+<div class="container">
+  <div class="row">
+    <div class="column ">
+      <button class="btn btn-primary" routerLink="/listForm">Crear lista</button>
+      <button class="btn btn-primary">Añadir</button>
+    </div>
+  </div>
+</div>
 <div class="container-fluid">
     <div class="row">
       <div class="col-md-8">

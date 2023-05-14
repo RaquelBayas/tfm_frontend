@@ -1,0 +1,52 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>{{ movie.title }}</h2>
+      <div *ngIf="reviewExist === true else reviewCreate">
+        <app-star-rating [reviewRating]="review.rating" (onRating)="onRatingSelected($event)"></app-star-rating>
+      </div>
+      <ng-template #reviewCreate>
+        <app-star-rating (onRating)="onRatingSelected($event)"></app-star-rating>
+      </ng-template>
+
+    </div>
+    <div class="modal-body">
+      <img [src]="movie.imageUrl" alt="" />
+      <div >
+        <form #reviewForm="ngForm">
+          <div class="form-group">
+            <label for="comment">Comment:</label>
+            <textarea
+              class="form-control"
+              rows="5"
+              id="comment"
+              name="comment"
+              [(ngModel)]="review.comment"
+            ></textarea>
+          </div>
+        </form>
+      </div>
+
+      <div *ngIf="review">
+        <p>Comment: {{ review.comment }}</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="closeReviewModal()"
+        data-dismiss="modal"
+      >
+        Close
+      </button>
+      <button
+        type="submit"
+        (click)="createReview()"
+        class="btn btn-primary float-right"
+      >
+        Save changes
+      </button>
+    </div>
+  </div>
+</div>

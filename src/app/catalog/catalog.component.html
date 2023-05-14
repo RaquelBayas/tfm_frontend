@@ -7,27 +7,45 @@
             <img [src]="movie.imageUrl" alt="" />
           </a>
         </ng-container>
-        <div class="modal bd-example-modal-lg" role="dialog" *ngIf="modalIsOpen" [ngClass]="{'modal-show': modalIsOpen}">
+        <div
+          class="modal bd-example-modal-lg"
+          role="dialog"
+          *ngIf="modalIsOpen"
+          [ngClass]="{ 'modal-show': modalIsOpen }"
+        >
+        <app-review [movie]="movie" (closeModal)="closeModal()"></app-review>
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h2>{{movie.title}}</h2>
+                <h2>{{ movie.title }}</h2>
                 <app-star-rating></app-star-rating>
               </div>
-              
+
               <div class="modal-body">
-                
-                <img [src]="movie.imageUrl" alt="">
+                <img [src]="movie.imageUrl" alt="" />
                 <form>
                   <div class="form-group">
                     <label for="comment">Comment:</label>
-                    <textarea class="form-control" rows="5" id="comment"></textarea>
+                    <textarea
+                      class="form-control"
+                      rows="5"
+                      id="comment"
+                    ></textarea>
                   </div>
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" (click)="closeModal()" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary float-right">Save changes</button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  (click)="closeModal()"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="submit" class="btn btn-primary float-right">
+                  Save changes
+                </button>
               </div>
             </div>
           </div>
@@ -38,7 +56,7 @@
           </a>
         </ng-template>
       </div>
-      <br/>
+      <br />
     </div>
   </div>
 </div>

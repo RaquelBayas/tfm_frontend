@@ -1,18 +1,25 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 import { Observable, map } from 'rxjs';
 import appConfig from 'src/app-config';
+import { environment } from 'src/environments';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovieService {
-  
+  private baseUrl = 'https://api.themoviedb.org/3';
   private apiKey = '5e0095c06a8d84d9261ec398c35d130c';
   private imageUrl = 'https://image.tmdb.org/t/p/';
+  token!: string;
+  
+  constructor(private http: HttpClient, private cookieService: CookieService) {
+    this.token = this.cookieService.get('token');
+    console.log("movieservice-token:",this.token);
+   }
 
-  constructor(private http: HttpClient) { }
-
+  /*
   searchMovies(query: string) {
     //const url = `${this.baseUrl}/search/movie?api_key=${this.apiKey}&query=${query}`;
     const url = `https://api.themoviedb.org/3/trending/all/week?api_key=5e0095c06a8d84d9261ec398c35d130c`;
@@ -21,6 +28,26 @@ export class MovieService {
         return response;
       })
     ));
+  }*/
+
+  searchMovies(query: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.token // Agrega el token al header "Authorization"
+    });
+
+    const url = `${this.baseUrl}/search/movie?query=${query}&api_key=${environment.apiKey}`;
+
+    return this.http.get(url, { headers });
+  }
+
+  searchSeries(query: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.token, // Agrega el token al header "Authorization"
+    });
+    const url = `${this.baseUrl}/search/tv?query=${query}&api_key=${environment.apiKey}`;
+    return this.http.get(url, { headers });
   }
 
   getMoviesFromList(listId: number): Observable<any> {

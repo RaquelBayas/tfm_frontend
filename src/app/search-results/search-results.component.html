@@ -1,0 +1,32 @@
+<h2>Resultados de personas:</h2>
+<div *ngIf="peopleResults && peopleResults.length > 0">
+  <!-- Mostrar los resultados de personas aquí -->
+  <ul class="searchResultsPeople">
+    <li *ngFor="let person of peopleResults">
+      <!-- Mostrar información de la persona aquí -->
+      <app-card [data]="person" [isCollections]="false"></app-card>
+    </li>
+  </ul>
+</div>
+
+<h2>Resultados de películas:</h2>
+<div *ngIf="movieResults && movieResults.length > 0">
+  <!-- Mostrar los resultados de películas aquí -->
+  <ul class="searchResultsMovies">
+    <li *ngFor="let movie of movieResults">
+      <!-- Mostrar información de la persona aquí -->
+      <app-card [data]="movie" [isCollections]="false"></app-card>
+    </li>
+  </ul>
+</div>
+
+<h2>Resultados de series:</h2>
+<div *ngIf="seriesResults && seriesResults.length > 0">
+  <!-- Mostrar los resultados de series aquí -->
+  <ul class="searchResultsSeries">
+    <li *ngFor="let serie of seriesResults">
+      <!-- Mostrar información de la persona aquí --> 
+      <app-card [data]="serie" [isCollections]="false"></app-card>
+    </li>
+  </ul>
+</div>

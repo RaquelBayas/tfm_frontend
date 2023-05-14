@@ -4,12 +4,12 @@
     <a mat-button routerLink="/">Inicio</a>
     <a mat-button routerLink="catalog" (click)="onClickCatalog()">Catálogo</a>
     <a mat-button routerLink="lists">Listas</a>
-    <input type="search" placeholder="Buscar">
+    <input type="search" placeholder="Buscar" [(ngModel)]="searchTerm" (keyup.enter)="search()">
     
     <a mat-button *ngIf="isLoggedIn" [matMenuTriggerFor]="menu">Perfil</a>
     <mat-menu #menu="matMenu">
-        <button mat-menu-item routerLink="profile">Perfil</button>
-        <button mat-menu-item>Ajustes</button>
+        <button mat-menu-item routerLink="profile/{{username}}">Perfil</button>
+        <button mat-menu-item routerLink="settings">Ajustes</button>
         <button mat-menu-item (click)="logout()">Cerrar sesión</button>
       </mat-menu>
     <a mat-button *ngIf="!isLoggedIn" routerLink="register">Cuenta</a>

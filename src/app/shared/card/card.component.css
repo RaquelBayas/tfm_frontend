@@ -3,7 +3,30 @@
 }
 
 .no-image {
-    object-fit: cover;
-    height: 375px;
-    width: 250px;
-  }
+  object-fit: cover;
+  height: 375px;
+  width: 250px;
+}
+
+.imagePerson {
+  width: 80px;
+  height: auto;
+}
+
+.card {
+  width: 250px;
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.card img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 10px;
+}

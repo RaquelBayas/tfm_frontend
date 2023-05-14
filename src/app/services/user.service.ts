@@ -2,28 +2,36 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../model/user';
 import { Observable, catchError, map, tap } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
   apiUrl = 'http://localhost:8080/api';
-  
-  constructor(private http: HttpClient) { }
+  token!: string;
 
-  login(user:any): Observable<any> {
-    return this.http.post<User>('http://localhost:8080/api/auth/signin',user).pipe(
-      tap((response: any) => {
-        localStorage.setItem('token', response.token);
-        console.log("response login:",response);
-      }));
+  constructor(private http: HttpClient, private cookieService: CookieService) {
+    const token = this.cookieService.get('token');
+    this.token = token;
+  }
+
+  login(user: any): Observable<any> {
+    return this.http
+      .post<User>('http://localhost:8080/api/auth/signin', user)
+      .pipe(
+        tap((response: any) => {
+          localStorage.setItem('token', response.token);
+          console.log('response login:', response);
+        })
+      );
   }
 
   register(user: User): Observable<User> {
-    return this.http.post<User>('http://localhost:8080/api/auth/signup',user);
+    return this.http.post<User>('http://localhost:8080/api/auth/signup', user);
   }
 
-  registerUser(user:User): Observable<any> {
+  registerUser(user: User): Observable<any> {
     return this.checkUsernameAvailability(user.username).pipe(
       map((response: any) => {
         if (response.available) {
@@ -39,7 +47,7 @@ export class UserService {
   checkUsernameAvailability(username: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/users?username=${username}`).pipe(
       map((response: any) => {
-        console.log("checkUser: "+response);
+        console.log('checkUser: ' + response);
         if (response.length === 0) {
           return { available: true };
         } else {
@@ -75,11 +83,15 @@ export class UserService {
     }))
   }*/
 
-
   getUserByUsername(username: string): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/users?username=${username}`);
+    // Agregar el encabezado de autorización a la solicitud HTTP
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.token, // Agrega el token al header "Authorization"
+    });
+    return this.http.get<User>(`${this.apiUrl}/users/${username}`, {headers});
   }
-  
+
   getToken(): string {
     return localStorage.getItem('token')!;
   }
@@ -88,5 +100,3 @@ export class UserService {
     return this.getToken() !== null;
   }
 }
-
-

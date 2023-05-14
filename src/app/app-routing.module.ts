@@ -12,6 +12,8 @@ import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PersonComponent } from './person/person.component';
 import { PersonDetailsComponent } from './person-details/person-details.component';
+import { SettingsComponent } from './settings/settings.component';
+import { SearchResultsComponent } from './search-results/search-results.component';
 
 const routes: Routes = [
   { path: '', component:HomeComponent, pathMatch: 'full' },
@@ -23,8 +25,10 @@ const routes: Routes = [
   { path: 'catalog', component:CatalogComponent},
   { path: 'lists', component:ListsComponent},
   { path: 'listForm', component:ListFormComponent},
-  { path: 'profile', component:ProfileComponent},
+  { path: 'profile/:username', component:ProfileComponent},
   { path: 'person/:id', component: PersonDetailsComponent},
+  { path: 'settings', component: SettingsComponent},
+  { path: 'search-results/:query', component: SearchResultsComponent},
   
 ];
 

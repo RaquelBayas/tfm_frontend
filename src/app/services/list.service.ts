@@ -20,7 +20,6 @@ export class ListService {
   }
 
   createList(listData: any): Observable<any> {
-    console.log('createList - service: ', this.token);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + this.token, // Agrega el token al header "Authorization"
@@ -47,8 +46,12 @@ export class ListService {
 
   // Obtener listas del usuario
   getListsByUser(userId: number): Observable<any[]> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.token, // Agrega el token al header "Authorization"
+    });
     const url = `${this.apiUrl}/api/users/${userId}/lists`;
-    return this.http.get<any[]>(url);
+    return this.http.get<any[]>(url, {headers});
   }
 
   // Obtener una
