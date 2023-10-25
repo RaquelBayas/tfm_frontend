@@ -1,11 +1,19 @@
 <div class="home-container grid">
-    <div class="column">
-        <img src="../../assets/home.png" alt="">
+  <div class="column left">
+    <img src="../../assets/home.png" alt="" />
+  </div>
+  <div class="wrapper column">
+    <h2>Lleva un seguimiento de tus películas y series</h2>
+    <h2>Crea listas, comenta y comparte con tus amigos</h2>
+    <div class="home-buttons">
+      <button type="button" class="btn" routerLink="/register">
+        Crear cuenta
+      </button>
+      <span routerLink="/login">¿Tienes una cuenta? Inicia sesión</span>
     </div>
-    <div class="wrapper column">
-        <h2>Lleva un seguimiento de tus películas y series</h2>
-        <h2>Crea listas, comenta y comparte con tus amigos</h2>
-        <button type="button" class="btn btn-primary" routerLink="/register">Crear cuenta</button>
-        <span routerLink="/login">¿Tienes una cuenta? Inicia sesión</span>
-    </div>
+  </div>
+  <div class="footer">
+  <app-footer></app-footer>
 </div>
+</div>
+

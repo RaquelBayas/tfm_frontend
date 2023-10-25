@@ -1,37 +1,116 @@
 <div class="container">
-  <div class="row"> 
-    <div class="col-md-2 text-center">
-      <!-- Imagen de perfil -->
-      <img class="img-fluid rounded-circle mb-3" src="https://via.placeholder.com/150x150" alt="Imagen de perfil">
-    </div>
-    <div class="col-md-6">
-      <!-- Nombre de usuario -->
-      <h3 *ngIf="viewedUser">{{ viewedUser.username }}</h3>
+  <div class="row rowDetails">
+    <div class="col-md-3 text-center">
+      <img
+        class="img-fluid rounded-circle mb-3"
+        *ngIf="profileImageUrl; else defaultImage"
+        [src]="profileImageUrl"
+        alt="Foto de perfil"
+      />
+      <ng-template #defaultImage>
+        <img
+          class="img-fluid rounded-circle mb-3"
+          src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
+          alt="Imagen predeterminada"
+        />
+      </ng-template>
     </div>
     <div class="col-md-4">
-      <p>Followers</p>
+      <div class="row">
+        <h1 id="username" *ngIf="viewerUser">{{ viewerUser.username }}</h1>
+      </div>
+      <div class="row">
+        <button
+          class="btn btn-primary"
+          *ngIf="username !== currentUser.username && !isFollowing"
+          (click)="followUser()"
+        >
+          {{ isFollowing ? "Siguiendo" : "Seguir" }}
+        </button>
+        <button
+          class="btn btn-primary"
+          *ngIf="username !== currentUser.username && isFollowing"
+          (click)="unfollowUser()"
+        >
+          Dejar de seguir
+        </button>
+      </div>
     </div>
-  </div>
-</div>
-<div class="container">
-  <div class="row">
-    <div class="column ">
-      <button class="btn btn-primary" routerLink="/listForm">Crear lista</button>
-      <button class="btn btn-primary">Añadir</button>
-    </div>
-  </div>
-</div>
-<div class="container-fluid">
-    <div class="row">
-      <div class="col-md-8">
-        <!-- Botón para cambiar la lista de películas -->
-        <select class="btn btn-secondary dropdown-toggle" type="button" [(ngModel)]="listId" (change)="onListChange($any($event.target).value)">
-          <option *ngFor="let list of lists" [value]="list.id">{{ list.title }}</option>
-        </select>        
-        <!-- Galería -->
-        <app-catalog [lists]="lists" [userId]="userId" [source]="'lists'" [modalIsOpen]="modalIsOpen"></app-catalog>
+    <div class="col-md-5 follow">
+      <div class="">
+        <p
+          class="followCounter"
+          (click)="openFollowersList(viewerUserId, 'following')"
+        >
+          {{ totalFollowed }} seguidos
+        </p>
+      </div>
+      <div class="">
+        <p
+          class="followCounter"
+          (click)="openFollowersList(viewerUser.id, 'followers')"
+        >
+          {{ totalFollowers }} seguidores
+        </p>
       </div>
     </div>
   </div>
-  
-  
+  <div class="btnsFollow">
+    <div class="row buttonsProfile">
+      <div class="column">
+        <div class="columnLeft">
+          <button
+            class="btn btn-primary"
+            *ngIf="isLoggedIn && username === currentUser.username"
+            routerLink="/listForm"
+          >
+            Crear lista
+          </button>
+        </div>
+        <div class="columnRight" *ngIf="lists.length > 0">
+          <button
+            type="button"
+            class="btn btn-outline-secondary me-2"
+            placement="start"
+            [ngbPopover]="
+              listDescription
+                ? listDescription
+                : 'Esta lista no tiene descripción'
+            "
+            popoverTitle="Información"
+          >
+            Info
+          </button>
+          <select
+            class="btn btn-secondary dropdown-toggle"
+            type="button"
+            [(ngModel)]="listId"
+            (change)="onListChange($any($event.target).value)"
+          >
+            <ng-container *ngFor="let list of lists">
+              <option
+                *ngIf="
+                  (list.privacy === 'private' &&
+                    currentUser.id === viewerUserId) ||
+                  list.privacy === 'public'
+                "
+                [value]="list.id"
+              >
+                {{ list.title }}
+              </option>
+            </ng-container>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12" *ngIf="lists">
+        <!-- Catálogo -->
+        <app-catalog [viewerId]="viewerUserId" [source]="'lists'"></app-catalog>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../../assets/popover.js"></script>

@@ -1,33 +1,50 @@
 <div>
-    <div class="wrapper">
-        <div class="container main">
-            <div class="row">
-                <div class="col-md-6 side-image">
-                    <img src="src/assets/home.jpg" alt="">
-                </div>
-                <div class="col-md-6 right">
-                     <div class="input-box">
-                        <header>Iniciar sesión</header>
-                        <form [formGroup]="loginForm" (ngSubmit)="login()">
-                            <div class="input-field">
-                                <input type="text" class="input" id="username" formControlName="username" required autocomplete="off" placeholder="Email">
-                                
-                            </div>
-                            <div class="input-field">
-                                <input type="password" class="input" id="password" formControlName="password" required placeholder="Contraseña">
-                            
-                            </div>
-                            <div class="input-field">
-                                <input type="submit" class="submit" value="Iniciar sesion">
-                            </div>
-                        </form>
-                        <div class="signin">
-                            <span>¿Has olvidado tu contraseña?</span>
-                        </div>
-                     </div>
-                </div>
-            </div>
-        </div>
+  <div class="container">
+    <div *ngIf="showAlert" class="alert alert-danger" role="alert">
+      Los datos ingresados son incorrectos. Por favor, verifica tu email y
+      contraseña.
     </div>
-
+    <div *ngIf="spinner" class="spinner-overlay">
+      <div class="spinner-border"></div>
+    </div>
+    <div class="container-xl main">
+      <div class="row">
+        <div class="col-xl-6 col-md-6 justify-content-center side-image"></div>
+        <div class="col-xl-6 col-md-6 columnRight">
+          <div class="input-box">
+            <header><h1>Iniciar sesión</h1></header>
+            <form [formGroup]="loginForm" (ngSubmit)="login()">
+              <div class="input-field">
+                <input
+                  type="text"
+                  class="input"
+                  id="username"
+                  formControlName="username"
+                  required
+                  autocomplete="off"
+                  placeholder="Nombre de usuario"
+                />
+              </div>
+              <div class="input-field">
+                <input
+                  type="password"
+                  class="input"
+                  id="password"
+                  formControlName="password"
+                  required
+                  placeholder="Contraseña"
+                />
+              </div>
+              <div class="input-field">
+                <input type="submit" class="submit" value="Iniciar sesion" />
+              </div>
+            </form>
+            <div class="signin">
+              <span>¿Has olvidado tu contraseña?</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

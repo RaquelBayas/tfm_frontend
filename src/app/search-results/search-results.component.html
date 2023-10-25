@@ -1,32 +1,113 @@
-<h2>Resultados de personas:</h2>
-<div *ngIf="peopleResults && peopleResults.length > 0">
-  <!-- Mostrar los resultados de personas aquí -->
-  <ul class="searchResultsPeople">
-    <li *ngFor="let person of peopleResults">
-      <!-- Mostrar información de la persona aquí -->
-      <app-card [data]="person" [isCollections]="false"></app-card>
-    </li>
-  </ul>
-</div>
+<div class="container">
+  <div *ngIf="peopleResults && peopleResults.length > 0">
+    <h2>Personas:</h2>
+    <ul class="searchResultsPeople">
+      <li *ngFor="let person of peopleResults">
+        <app-card [data]="person" [isCollections]="false"></app-card>
+      </li>
+    </ul>
+    <div class="pagination">
+      <button
+        class="btn btn-primary"
+        (click)="previousPage('people')"
+        [disabled]="currentPage === 1"
+      >
+        Anterior
+      </button>
+      <span>{{ currentPage }}</span>
+      <button
+        class="btn btn-primary"
+        (click)="nextPage('people')"
+        [disabled]="currentPage === totalPages"
+      >
+        Siguiente
+      </button>
+    </div>
+  </div>
 
-<h2>Resultados de películas:</h2>
-<div *ngIf="movieResults && movieResults.length > 0">
-  <!-- Mostrar los resultados de películas aquí -->
-  <ul class="searchResultsMovies">
-    <li *ngFor="let movie of movieResults">
-      <!-- Mostrar información de la persona aquí -->
-      <app-card [data]="movie" [isCollections]="false"></app-card>
-    </li>
-  </ul>
-</div>
+  <div *ngIf="movieResults && movieResults.length > 0">
+    <h2>Películas:</h2>
+    <ul class="searchResultsMovies">
+      <li *ngFor="let movie of movieResults">
+        <app-card [data]="movie"></app-card>
+      </li>
+    </ul>
+    <div class="pagination">
+      <button
+        class="btn btn-primary"
+        (click)="previousPage('movies')"
+        [disabled]="currentPage === 1"
+      >
+        Anterior
+      </button>
+      <span>{{ currentPage }}</span>
+      <button
+        class="btn btn-primary"
+        (click)="nextPage('movies')"
+        [disabled]="currentPage === totalPages"
+      >
+        Siguiente
+      </button>
+    </div>
+  </div>
 
-<h2>Resultados de series:</h2>
-<div *ngIf="seriesResults && seriesResults.length > 0">
-  <!-- Mostrar los resultados de series aquí -->
-  <ul class="searchResultsSeries">
-    <li *ngFor="let serie of seriesResults">
-      <!-- Mostrar información de la persona aquí --> 
-      <app-card [data]="serie" [isCollections]="false"></app-card>
-    </li>
-  </ul>
+  <div *ngIf="seriesResults && seriesResults.length > 0">
+    <h2>Series:</h2>
+    <ul class="searchResultsSeries">
+      <li *ngFor="let serie of seriesResults">
+        <app-card [data]="serie"></app-card>
+      </li>
+    </ul>
+    <div class="pagination">
+      <button
+        class="btn btn-primary"
+        (click)="previousPage('series')"
+        [disabled]="currentPage === 1"
+      >
+        Anterior
+      </button>
+      <span>{{ currentPage }}</span>
+      <button
+        class="btn btn-primary"
+        (click)="nextPage('series')"
+        [disabled]="currentPage === totalPages"
+      >
+        Siguiente
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="usersResults && usersResults.length > 0">
+    <h2>Usuarios:</h2>
+    <ul class="searchResultsUsers">
+      <li
+        *ngFor="let user of usersResults"
+        [routerLink]="'/profile/' + user.username"
+      >
+        <div class="card">
+          <img [src]="profileImg" alt="Foto de perfil" />
+          <div class="card-body">
+            <h2>{{ user.username }}</h2>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="pagination">
+      <button
+        class="btn btn-primary"
+        (click)="previousPage('users')"
+        [disabled]="currentPage === 1"
+      >
+        Anterior
+      </button>
+      <span>{{ currentPage }}</span>
+      <button
+        class="btn btn-primary"
+        (click)="nextPage('users')"
+        [disabled]="currentPage === totalPages"
+      >
+        Siguiente
+      </button>
+    </div>
+  </div>
 </div>

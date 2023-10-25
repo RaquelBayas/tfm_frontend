@@ -34,14 +34,26 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatMenu, MatMenuModule} from '@angular/material/menu'; 
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PersonComponent } from './person/person.component';
-import { PersonDetailsComponent } from './person-details/person-details.component';
-import { OtherProfileComponent } from './other-profile/other-profile.component';
+import { PersonDetailsComponent } from './person-details/person-details.component'; 
 import { ModalComponent } from './shared/modal/modal.component';
 import { StarRatingComponent } from './star-rating/star-rating.component';
 import { ReviewComponent } from './review/review.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
-
+import { EditUserComponent } from './edit-user/edit-user.component';
+import { TrendingContentComponent } from './trending-content/trending-content.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { SeriesComponent } from './series/series.component';
+import { ButtonComponent } from './shared/button/button.component';
+import { ContactoComponent } from './contacto/contacto.component';
+import { NotFoundComponent } from './shared/not-found/not-found.component';
+import { BoardComponent } from './admin/board/board.component';
+import { CommentsComponent } from './shared/comments/comments.component';
+import { CookieService } from 'ngx-cookie-service';
+import { FollowersListComponent } from './followers-list/followers-list.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AlertErrorComponent } from './shared/alert-error/alert-error.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -60,13 +72,24 @@ import { SearchResultsComponent } from './search-results/search-results.componen
     HomeComponent,
     ProfileDetailsComponent,
     PersonComponent,
-    PersonDetailsComponent,
-    OtherProfileComponent,
+    PersonDetailsComponent, 
     ModalComponent,
     StarRatingComponent,
     ReviewComponent,
     SettingsComponent,
-    SearchResultsComponent
+    SearchResultsComponent,
+    EditUserComponent,
+    TrendingContentComponent,
+    PrivacyPolicyComponent,
+    SeriesComponent,
+    ButtonComponent,
+    ContactoComponent,
+    NotFoundComponent,
+    BoardComponent,
+    CommentsComponent,
+    FollowersListComponent,
+    AlertErrorComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -87,6 +110,7 @@ import { SearchResultsComponent } from './search-results/search-results.componen
     SlickCarouselModule,
     MatSelectModule,
     MatMenuModule,
+    MatDialogModule,
     InfiniteScrollModule,
     JwtModule.forRoot({
       config: {
@@ -98,7 +122,7 @@ import { SearchResultsComponent } from './search-results/search-results.componen
  
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  providers: [JwtHelperService],
+  providers: [JwtHelperService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

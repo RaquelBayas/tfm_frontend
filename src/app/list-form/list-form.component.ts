@@ -3,10 +3,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments';
 import { MovieService } from '../services/movie.service';
-import { map } from 'rxjs/operators';
-import { CookieService } from 'ngx-cookie-service';
-import jwtDecode from 'jwt-decode';
 import { ListService } from '../services/list.service';
+import appConfig from 'src/app-config';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-form',
@@ -17,8 +17,9 @@ export class ListFormComponent {
   listForm!: FormGroup;
   searchResults: any[] = [];
   apiKey: any = environment.apiKey;
-  selectedMovies: any[] = [];
+  selectedContent: any[] = [];
   token!: string;
+  userData!: any;
   userId!: number;
   moviesTVShows: any[string] = [];
 
@@ -26,23 +27,23 @@ export class ListFormComponent {
     private fb: FormBuilder,
     private http: HttpClient,
     private movieService: MovieService,
-    private cookieService: CookieService,
-    private listService: ListService
+    private authService: AuthService,
+    private listService: ListService,
+    private router: Router
   ) {
     this.listForm = this.fb.group({
       title: [null, Validators.required],
       description: [null],
       privacy: [null, Validators.required],
       userId: null,
-      selectedMovies: this.fb.array([]),
+      selectedContent: this.fb.array([]),
     });
   }
 
   ngOnInit() {
-    this.token = this.cookieService.get('token');
-    const decodedToken: any = jwtDecode(this.token);
-    this.userId = decodedToken.id;
-    console.log('decoded token:', decodedToken.id, '- userId:', this.userId);
+    this.token = this.authService.getToken();
+    this.userData = this.authService.getUserDataFromToken();
+    this.userId = this.userData.id;
   }
 
   setUserId() {
@@ -53,35 +54,29 @@ export class ListFormComponent {
 
   onSubmit() {
     this.setUserId();
-    console.log(this.listForm.value);
     const listData = this.listForm.value;
     this.listService.createList(listData).subscribe(
       (response) => {
-        console.log('list form on submit:', response);
         this.listForm.reset();
         this.searchResults = [];
-        this.selectedMovies = [];
-        // La lista se ha creado correctamente
-        // Realiza las acciones necesarias, como redirigir a la página de la lista creada
+        this.selectedContent = [];
+        this.router.navigate(['/lists']);
       },
       (error) => {
         console.log(error);
-        // Ha ocurrido un error al crear la lista
-        // Muestra un mensaje de error al usuario
       }
     );
   }
 
-  searchMovies(query: Event) {
+  searchContent(query: Event) {
     if ((query.target as HTMLInputElement).value.length > 0) {
       this.http
         .get(
-          `https://api.themoviedb.org/3/search/movie?query=${
+          `${appConfig.tmdb.apiUrl}search/multi?query=${
             (query.target as HTMLInputElement).value
           }&api_key=${this.apiKey}`
         )
         .subscribe((response: any) => {
-          console.log('searchmovies: ', response);
           this.searchResults = response.results;
         });
     } else {
@@ -90,33 +85,43 @@ export class ListFormComponent {
   }
 
   onSelect(movie: any) {
-    const index = this.selectedMovies.findIndex((m) => m.id === movie.id);
+    const index = this.selectedContent.findIndex((m) => m.id === movie.id);
     if (index > -1) {
-      this.selectedMovies.splice(index, 1);
+      this.selectedContent.splice(index, 1);
     } else {
-      this.selectedMovies.push(movie);
+      this.selectedContent.push(movie);
     }
 
     this.listForm.setControl(
-      'selectedMovies',
-      this.moviesControls(this.selectedMovies)
+      'selectedContent',
+      this.moviesControls(this.selectedContent)
     );
-    this.listForm.patchValue({ selectedMovies: this.selectedMovies });
+    this.listForm.patchValue({ selectedContent: this.selectedContent });
   }
 
-  moviesControls(selectedMovies: any[]) {
-    const movieControls = selectedMovies.map((movie) => {
-      return this.fb.group({
-        id: [movie.id],
-        title: [movie.title],
-      });
+  moviesControls(selectedContent: any[]) {
+    const movieControls = selectedContent.map((content) => {
+      if (content.media_type === 'movie') {
+        return this.fb.group({
+          id: [content.id],
+          media_type: [content.media_type],
+          title: [content.title],
+        });
+      } else if (content.media_type === 'tv') {
+        return this.fb.group({
+          id: [content.id],
+          media_type: [content.media_type],
+          title: [content.name],
+        });
+      } else {
+        return null;
+      }
     });
-
-    return this.fb.array(movieControls);
+    return this.fb.array(movieControls.filter((control) => control !== null));
   }
 
   isSelected(movie: any) {
-    return this.selectedMovies.findIndex((m) => m.id === movie.id) > -1;
+    return this.selectedContent.findIndex((m) => m.id === movie.id) > -1;
   }
 
   getMoviePosterUrl(posterPath: string): string {

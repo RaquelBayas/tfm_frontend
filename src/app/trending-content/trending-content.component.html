@@ -1,0 +1,13 @@
+<div class="latest-content">
+  <div class="movies">
+    <ngx-slick-carousel
+      class="carousel"
+      #slickModal="slick-carousel"
+      [config]="slideConfig"
+    >
+      <div *ngFor="let content of trendingContents" class="slide">
+        <app-card ngxSlickItem [data]="content"></app-card>
+      </div>
+    </ngx-slick-carousel>
+  </div>
+</div>

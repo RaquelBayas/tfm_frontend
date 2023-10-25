@@ -1,12 +1,17 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { MovieService } from '../services/movie.service';
 import { Review } from '../model/review';
-import { AuthService } from '../services/auth.service';
-import { CookieService } from 'ngx-cookie-service';
-import jwtDecode from 'jwt-decode';
 import { ReviewService } from '../services/review.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { SeriesService } from '../services/series.service';
 
 @Component({
   selector: 'app-review',
@@ -14,89 +19,138 @@ import { Router } from '@angular/router';
   styleUrls: ['./review.component.css'],
 })
 export class ReviewComponent implements OnInit {
-  @Input() movie!: any;
+  @Input() content!: any;
   @Input() modalIsOpen!: boolean;
   @Output() closeModal: EventEmitter<any> = new EventEmitter();
+  @Input() viewerUserId!: number;
+  @Input() listId!: number;
   selectedRating!: number;
   review!: Review;
+  reviewId!: number;
   reviewExist!: Boolean;
   userData!: any;
+  userId!: number;
   token!: string;
   reviewForm!: FormGroup;
-  reviews!: Review[];
+  comment!: string;
   reviewRating: number = 0;
+  disabledRating: boolean = true;
+  contentDescription!: string;
+  newListId!: number;
+
+  editingReview: boolean = false;
+  editedComment!: string;
 
   constructor(
     private movieService: MovieService,
+    private serieService: SeriesService,
     private reviewService: ReviewService,
-    private cookieService: CookieService,
-    private fb: FormBuilder,
-    private router: Router
-  ) {
-
-  }
+    private authService: AuthService,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
-    this.token = this.cookieService.get('token');
-    this.userData = jwtDecode(this.token);
-    //this.getMovieDetails();
-
+    this.token = this.authService.getToken();
+    this.userData = this.authService.getUserDataFromToken();
+    this.getMovieDetails();
     this.getReview();
 
-    
     this.reviewForm = this.fb.group({
-      rating: ['', Validators.required],
       comment: ['', Validators.required],
     });
+  }
 
-    
+  ngOnChanges(changes: SimpleChanges) {
+    if ('listId' in changes) {
+      this.newListId = changes['listId'].currentValue;
+    }
+  }
+
+  enterEditMode() {
+    this.editingReview = true;
+    this.editedComment = this.review.comment;
   }
 
   getMovieDetails() {
-    this.movieService.getMovieDetails(this.movie.id).subscribe((response) => {
-      console.log('REVIEW-MOVIE:', response);
+    if (this.content.media_type === 'movie') {
+      this.movieService
+        .getMovieDetails(this.content.id)
+        .subscribe((response: any) => {
+          this.contentDescription = response.overview.slice(0, 160);
+          if (response.overview.length > 160) {
+            this.contentDescription += '...';
+          }
+        });
+    } else if (this.content.media_type === 'tv') {
+      this.serieService
+        .getSeriesDetails(this.content.id)
+        .subscribe((response: any) => {
+          this.contentDescription = response.overview.slice(0, 160);
+          if (response.overview.length > 160) {
+            this.contentDescription += '...';
+          }
+        });
+    }
+  }
+
+  getContentType(content: any): string {
+    return content.media_type === 'movie' ? '/content/movies/' + content.id : '/content/series/' + content.id;
+  }
+  
+  createReview() {
+    this.review.movieId = this.content.id;
+    this.review.userId = this.userData.id;
+    this.review.listId = this.newListId;
+    this.review.rating = this.selectedRating;
+    this.review.comment = this.comment;
+
+    this.reviewService.createReview(this.review).subscribe(() => {
+      this.modalIsOpen = false;
+      this.reviewForm.reset();
+      this.closeReviewModal();
     });
   }
 
-  createReview() {
-    this.review.movieId = this.movie.id;
+  editReview() {
+    this.review.movieId = this.content.id;
     this.review.userId = this.userData.id;
+    this.review.listId = this.listId;
     this.review.rating = this.selectedRating;
+    this.review.comment = this.comment;
 
-    console.log("Review-create: ",this.review);
-    this.reviewService.createReview(this.review).subscribe(() => {
-      this.modalIsOpen = false;
-      //this.reviewForm.reset();
-      //this.router.navigate(['/profile']);
-    });
+    this.reviewService
+      .updateReview(this.reviewId, this.review)
+      .subscribe((response: any) => {
+        console.log('updateRevieW::', response);
+      });
+    this.editingReview = false;
   }
 
   getReview() {
-    this.reviewService.getReviewByMovieId(this.movie.id).subscribe((response:any) => {
-      if(response.reviews) {
-        this.review = response.reviews;
-        this.reviewRating = this.review.rating;
-        this.reviewExist = true;
-      } else {
-        this.reviewExist = false;
-        this.review = {
-          rating: 0,
-          comment: ''
+    this.reviewService
+      .getReviewByListIdMovieId(this.listId, this.content.id)
+      .subscribe((response: any) => {
+        if (response.reviews) {
+          this.review = response.reviews;
+          this.reviewId = response.reviews.id;
+          this.reviewRating = this.review.rating;
+          this.reviewExist = true;
+        } else {
+          this.reviewExist = false;
+          this.review = {
+            rating: 0,
+            comment: '',
+          };
         }
-      }
-      console.log("Review-Get:",this.review);
-    })
+      });
   }
 
   onRatingSelected(rating: number) {
     this.selectedRating = rating;
-    console.log('Review-Rating:', this.selectedRating);
   }
 
   closeReviewModal() {
-    // Lógica para cerrar el modal
     this.modalIsOpen = false;
     this.closeModal.emit();
-    console.log('cerrar modal');
   }
 }

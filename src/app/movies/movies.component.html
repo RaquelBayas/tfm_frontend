@@ -1,36 +1,113 @@
 <div class="container">
-  <div class="container-content" *ngIf="movie">
-    <h1>{{ movie.title }}</h1>
-    <div class="content-details">
-      <img [src]="imageUrl" alt="" />
-      <p>{{ movie.overview }}</p>
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <div class="container-content" *ngIf="movie">
+        <div class="row">
+          <div class="col-xl-4 col-md-4">
+            <img *ngIf="imageUrl" [src]="imageUrl" alt="" class="imgContent" />
+            <img
+              *ngIf="!imageUrl"
+              src="assets/no-image-available.png"
+              alt=""
+              class="imgContent"
+            />
+          </div>
+          <div class="col-xl-8 col-md-8">
+            <div class="content-details">
+              <h2>
+                {{ movie.title }}
+                <span id="releaseDate">({{ releaseDate }})</span>
+              </h2>
+              <button
+                class="heart-icon"
+                *ngIf="isLoggedIn"
+                (click)="toggleFavorites(movie)"
+                [ngClass]="{ active: isFavorite(movie.id) | async }"
+              >
+                <i class="fas fa-heart"></i>
+              </button>
+              <p class="description">
+                {{
+                  movie.overview
+                    ? movie.overview
+                    : "No hay descripción disponible"
+                }}
+              </p>
+              <div>
+                <p><b>Director/a:</b> {{ movie?.director?.name }}</p>
+              </div>
+              <ul class="list-socialNetworks">
+                <li *ngIf="socialNetworks?.facebook_id">
+                  <a
+                    href="https://www.facebook.com/{{
+                      socialNetworks.facebook_id
+                    }}"
+                    target="_blank"
+                  >
+                    <img
+                      src="assets/facebook.png"
+                      alt="Facebook"
+                      width="40px"
+                      height="40px"
+                    />
+                  </a>
+                </li>
+                <li *ngIf="socialNetworks?.instagram_id">
+                  <a
+                    href="https://www.instagram.com/{{
+                      socialNetworks.instagram_id
+                    }}"
+                    target="_blank"
+                  >
+                    <img
+                      src="assets/instagram.png"
+                      alt="Instagram"
+                      width="40px"
+                      height="40px"
+                    />
+                  </a>
+                </li>
+                <li *ngIf="socialNetworks?.twitter_id">
+                  <a
+                    href="https://twitter.com/{{ socialNetworks.twitter_id }}"
+                    target="_blank"
+                  >
+                    <img
+                      src="assets/twitter.png"
+                      alt="Twitter"
+                      width="50px"
+                      height="40px"
+                    />
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div class="carousel-container">
-  <ngx-slick-carousel class="carousel" [config]="slideConfig">
-    <div
-      ngxSlickItem
-      *ngFor="let actor of movieDetails.castList"
-      class="slide-card"
-      [routerLink]="['/person', actor.id]"
-    >
-      <img
-        class="circular-img"
-        [src]="'https://image.tmdb.org/t/p/w500' + actor.profile_path"
-        alt="{{ actor.name }} profile"
-      />
-      <p class="actor-name">{{ actor.name }}</p>
-    </div>
-  </ngx-slick-carousel>
-</div>
+    <div class="row justify-content-center" *ngIf="movieDetails.castList">
+      <div class="col-md-10">
+        <div class="containerCast" #containerCast>
+          <div class="slide-card1" *ngFor="let actor of movieDetails.castList">
+            <div class="avatar-container" [routerLink]="['/person', actor.id]">
+              <img
+                class="circular-img"
+                [src]="
+                  actor?.profile_path
+                    ? 'https://image.tmdb.org/t/p/w500' + actor.profile_path
+                    : '../../assets/no-image-available.png'
+                "
+                alt="{{ actor.name }} profile"
+              />
+            </div>
 
-<div class="reviews-container">
-  <div class="reviews-header">
-    <input type="text" name="" id="" />
-    <div class="reviews-buttons">
-      <button>Cancelar</button>
-      <button>Comentar</button>
+            <p class="actor-name">{{ actor.name }}</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <app-comments [movieId]="movieId" [username]="username"></app-comments>
 </div>

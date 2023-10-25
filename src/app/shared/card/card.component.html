@@ -1,27 +1,85 @@
-<div *ngIf="data.poster_path">
-  <div *ngIf="data.poster_path == null; then thenBlock; else elseBlock"></div>
-  <ng-template #thenBlock>
-    <div class="card" >
-      <img src="assets/no-image-available.png" alt="figure" class="no-image" />
-      <div class="card-body">
-        <h2 class="card-title">{{ data.title }}</h2>
-      </div>
-    </div>
-  </ng-template>
-  <ng-template #elseBlock>
-    <div class="card" [routerLink]="['/item', data.id]">
-      <img src="{{ imgUrl + data.poster_path }}" alt="figure" class="card-img-top" />
-      <div class="card-body">
-        <h2 class="card-title">{{ data.title }}</h2>
-      </div>
-    </div>    
-  </ng-template>
-</div>
-<div *ngIf="data.profile_path">
-  <div class="card" [routerLink]="['/person', data.id]" >
-    <img src="{{ imgUrl + data.profile_path }}" alt="figure" class="card-img-top" />
+<div *ngIf="source === 'listSource'; else anotherSource">
+  <div
+    class="cardList"
+    *ngIf="data.media_type === 'movie'"
+     
+  >
+    <img
+      src="{{ imgUrl + data.poster_path }}"
+      alt="figure"
+      class="card-img-top"
+    />
     <div class="card-body">
-      <h2 class="card-title">{{ data.name }}</h2>
+      <h3 class="card-title">{{ data.title }}</h3>
+    </div>
+  </div>
+  <div
+    class="cardList"
+    *ngIf="data.media_type === 'tv'" 
+  >
+    <img
+      src="{{ imgUrl + data.poster_path }}"
+      alt="figure"
+      class="card-img-top"
+    />
+    <div class="card-body">
+      <h3 class="card-title">{{ data.title }}</h3>
     </div>
   </div>
 </div>
+
+<ng-template #anotherSource>
+  <!-- SI NO TIENE POSTER_PATH, HACE REFERENCIA A UNA PERSONA FAMOSA -->
+  <div *ngIf="!data.poster_path && data.profile_path" [routerLink]="['/person', data.id]">
+    <div class="card" *ngIf="data.profile_path !== null">
+      <img
+        src="{{ data.profile_path ? (imgUrl + data.profile_path) : '../assets/no-image-available.png' }}"
+        alt="{{ data.name }}'s profile image"
+        class="card-img-top"
+      />
+      <div class="card-body">
+        <h3 class="card-title">{{ data.name }}</h3>
+      </div>
+    </div>
+    <div class="card" *ngIf="data.profile_path === null">
+      <img
+        src="../../../assets/no-image-available.png"
+        alt="Placeholder image"
+        class="no-image"
+      />
+      <div class="card-body">
+        <h3 class="card-title">{{ data.name }}</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- SI TIENE POSTER_PATH, ES UNA PELÍCULA O SERIE -->
+  <div
+    class="card"
+    *ngIf="data.poster_path !== '' && data.title"
+    [routerLink]="['/content/movies', data.id]"
+  >
+    <img
+      src="{{ data.poster_path ? (imgUrl + data.poster_path) : '../assets/no-image-available.png' }}"
+      alt="{{ data.title }} movie poster"
+      class="card-img-top"
+    />
+    <div class="card-body">
+      <h3 class="card-title">{{ data.title }}</h3>
+    </div>
+  </div>
+  <div
+    class="card"
+    *ngIf="data.poster_path !== '' && data.name"
+    [routerLink]="['/content/series', data.id]"
+  >
+    <img
+      src="{{ data.poster_path ? (imgUrl + data.poster_path) : '../assets/no-image-available.png' }}"
+      alt="{{ data.name }} series poster"
+      class="card-img-top"
+    />
+    <div class="card-body">
+      <h3 class="card-title">{{ data.name }}</h3>
+    </div>
+  </div>
+</ng-template>

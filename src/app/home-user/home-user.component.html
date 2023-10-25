@@ -1,17 +1,14 @@
-<p>home-user works!</p>
 <div>
-    <input type="search" [(ngModel)]="query" placeholder="Buscar...">
-    <button (click)="search()">Search</button>
-    <ul>
-      <li *ngFor="let movie of movies">{{ movie.title }}</li>
-    </ul>
-    <div class="container">
-      <div class="row justify-content-around">
-        <div *ngFor="let movie of movies" class="col-md" [routerLink]="['/item', movie.id]">
-          <img [src]="baseUrl + 'w200' + movie.poster_path" alt="" >
-      </div>
-      </div>
-    </div>
-
-    <app-star-rating (onRating)=Handle($event)></app-star-rating>
+  <div class="container">
+    <h2>Últimas películas</h2>
+    <app-trending-content
+      [trendingContents]="trendingContentMovies"
+    ></app-trending-content>
+  </div>
+  <div class="container">
+    <h2>Últimas series</h2>
+    <app-trending-content
+      [trendingContents]="trendingContentSeries"
+    ></app-trending-content>
+  </div>
 </div>

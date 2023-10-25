@@ -4,5 +4,5 @@ export interface List {
   description: string;
   privacy: string;
   userId: number;
-  movies: any[];
+  selectedContent: any[];
 }

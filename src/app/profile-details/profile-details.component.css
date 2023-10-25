@@ -1,21 +1,71 @@
+.row.rowDetails {
+  padding-top: 1rem;
+}
+
 img {
-    width: 150px;
-    height: 150px;
+  width: 150px;
+  height: 150px;
 }
 
 .userProfileImg {
-    border-radius: 15px;
-    
+  border-radius: 15px;
+}
+
+#username {
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
 }
 
 .container {
-    background-color: yellow;
+  width: 70%;
+  background-color: #f2f3fa;
+}
+
+.follow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.followCounter {
+  cursor: pointer;
+}
+
+.btnsFollow {
+  padding-top: 1rem;
+  float: rigth;
 }
 
 .col-md-8 {
-    margin: auto;
+  margin: auto;
 }
 
-.buttonsProfile {
-    
+.modal-show {
+  display: block;
+}
+
+.modal {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-header {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.column {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.columnRight {
+  display: flex;
+}
+
+.row.buttonsProfile {
+  margin-left: 1rem;
+  margin-right: 1rem;
 }

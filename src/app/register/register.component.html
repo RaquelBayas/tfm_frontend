@@ -1,32 +1,125 @@
 <div>
-    <div class="wrapper">
-        <div class="container main">
-            <div class="row">
-                <div class="col-md-6 side-image">
-                    <img src="src/assets/home.jpg" alt="">
-                </div>
-                <div class="col-md-6 right">
-                     <div class="input-box">
-                        <header>Crear cuenta</header>
-                        <form [formGroup]="registerForm" (ngSubmit)="register()">
-                            <div class="input-field">
-                                <input type="text" class="input" id="username" formControlName="username" required autocomplete="off" placeholder="Username">
-                               
-                            </div>
-                            <div class="input-field">
-                                <input type="text" class="input" id="email" formControlName="email" required autocomplete="off" placeholder="Email">
-                                
-                            </div>
-                            <div class="input-field">
-                                <input type="password" class="input" id="password" formControlName="password" required placeholder="Contraseña">
-                            </div>
-                            <div class="input-field">
-                                <input type="submit" class="submit" value="Crear cuenta"> 
-                            </div>
-                        </form>
-                     </div>
-                </div>
-            </div>
-        </div>
+  <div class="container">
+    <div *ngIf="showAlert" class="alert alert-danger" role="alert">
+      Los datos ingresados son incorrectos. Por favor, verifica los datos
+      introducidos
     </div>
+    <div *ngIf="showSuccess" class="alert alert-success" role="alert">
+      Te has registrado correctamente
+    </div>
+    <div class="container-xl main">
+      <div class="row">
+        <div class="col-xl-6 col-md-6 justify-content-center side-image"></div>
+        <div class="col-xl-6 col-md-6 columnRight">
+          <div class="input-box">
+            <header><h1>Crear cuenta</h1></header>
+            <form [formGroup]="registerForm" (ngSubmit)="register()">
+              <div class="input-field">
+                <input
+                  type="text"
+                  class="input"
+                  id="username"
+                  formControlName="username"
+                  required=""
+                  autocomplete="off"
+                  placeholder="Nombre de usuario"
+                />
+                <div
+                  *ngIf="
+                    registerForm.get('username')?.invalid &&
+                    (registerForm.get('username')?.dirty ||
+                      registerForm.get('username')?.touched)
+                  "
+                >
+                  <div
+                    *ngIf="registerForm.get('username')?.hasError('required')"
+                    class="text-danger"
+                  >
+                    Nombre de usuario obligatorio.
+                  </div>
+                  <div
+                    *ngIf="registerForm.get('username')?.hasError('minlength')"
+                    class="text-danger"
+                  >
+                    El nombre de usuario debe tener al menos 4 caracteres.
+                  </div>
+                </div>
+              </div>
+              <div class="input-field">
+                <input
+                  type="email"
+                  class="input"
+                  id="email"
+                  formControlName="email"
+                  required=""
+                  autocomplete="off"
+                  placeholder="Email"
+                />
+                <div
+                  *ngIf="
+                    registerForm.get('email')?.invalid &&
+                    (registerForm.get('email')?.dirty ||
+                      registerForm.get('email')?.touched)
+                  "
+                >
+                  <div
+                    *ngIf="registerForm.get('email')?.hasError('required')"
+                    class="text-danger"
+                  >
+                    Email obligatorio.
+                  </div>
+                  <div
+                    *ngIf="registerForm.get('email')?.hasError('email')"
+                    class="text-danger"
+                  >
+                    Email inválido.
+                  </div>
+                </div>
+              </div>
+              <div class="input-field">
+                <input
+                  type="password"
+                  class="input"
+                  id="password"
+                  formControlName="password"
+                  required=""
+                  placeholder="Contraseña"
+                />
+                <div
+                  *ngIf="
+                    registerForm.get('password')?.invalid &&
+                    (registerForm.get('password')?.dirty ||
+                      registerForm.get('password')?.touched)
+                  "
+                >
+                  <div
+                    *ngIf="registerForm.get('password')?.hasError('required')"
+                    class="text-danger"
+                  >
+                    Contraseña obligatoria.
+                  </div>
+                  <div
+                    *ngIf="registerForm.get('password')?.hasError('minlength')"
+                    class="text-danger"
+                  >
+                    La contraseña debe tener al menos 8 caracteres.
+                  </div>
+                  <div
+                    *ngIf="registerForm.get('password')?.hasError('maxlength')"
+                    class="text-danger"
+                  >
+                    La contraseña debe tener máximo 16 caracteres.
+                  </div>
+                </div>
+              </div>
+              <input type="hidden" formControlName="profileImg" />
+              <div class="input-field">
+                <input type="submit" class="submit" value="Crear cuenta" />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

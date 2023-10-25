@@ -1,9 +1,21 @@
+@font-face {
+  font-family: "Open Sans Light";
+  src:
+    url("../../assets/fonts/OpenSans-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+.container {
+  font-family: "Open Sans Light", sans-serif;
+}
 
 ul li {
-    list-style-type: none;
-    
+  list-style-type: none;
+  margin-bottom: 1.5rem;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
+  font-size: 1.5em;
 }

@@ -1,0 +1,125 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <div class="container-content" *ngIf="serie">
+        <div class="row">
+          <div class="col-xl-4 col-md-4">
+            <img *ngIf="imageUrl" [src]="imageUrl" alt="" class="imgContent" />
+            <img
+              *ngIf="!imageUrl"
+              src="assets/no-image-available.png"
+              alt=""
+              class="imgContent"
+            />
+          </div>
+
+          <div class="col-xl-8 col-md-8">
+            <div class="content-details">
+              <h2>
+                {{ serie.name }}
+                <span id="releaseDate">({{ releaseDate }})</span>
+              </h2>
+              <button
+                class="heart-icon"
+                (click)="toggleFavorites(serie)"
+                [ngClass]="{ active: isFavorite(serie.id) | async }"
+              >
+                <i class="fas fa-heart"></i>
+              </button>
+              <p
+                class="description"
+                [ngStyle]="{ 'width.px': serie.overview ? 'auto' : 900 }"
+              >
+                {{
+                  serie?.overview
+                    ? serie.overview
+                    : "No hay descripción disponible"
+                }}
+              </p>
+              <p
+                *ngFor="let paragraph of getDescription(serie?.overview)"
+                [ngStyle]="{ 'width.px': serie.overview ? 'auto' : 900 }"
+              >
+                {{ paragraph }}
+              </p>
+              <ul class="list-socialNetworks">
+                <li *ngIf="socialNetworks?.facebook_id">
+                  <a
+                    href="https://www.facebook.com/{{
+                      socialNetworks.facebook_id
+                    }}"
+                    target="_blank"
+                  >
+                    <img
+                      src="assets/facebook.png"
+                      alt="Facebook"
+                      width="40px"
+                      height="40px"
+                    />
+                  </a>
+                </li>
+                <li *ngIf="socialNetworks?.instagram_id">
+                  <a
+                    href="https://www.instagram.com/{{
+                      socialNetworks.instagram_id
+                    }}"
+                    target="_blank"
+                  >
+                    <img
+                      src="assets/instagram.png"
+                      alt="Instagram"
+                      width="40px"
+                      height="40px"
+                    />
+                  </a>
+                </li>
+                <li *ngIf="socialNetworks?.twitter_id">
+                  <a
+                    href="https://twitter.com/{{ socialNetworks.twitter_id }}"
+                    target="_blank"
+                  >
+                    <img
+                      src="assets/twitter.png"
+                      alt="Twitter"
+                      width="50px"
+                      height="40px"
+                    />
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+        <div class="containerCast">
+          <div class="slide-card1" *ngFor="let actor of serieDetails.castList">
+            <div class="avatar-container" [routerLink]="['/person', actor.id]">
+              <ng-container *ngIf="actor.profile_path !== null">
+                <img
+                  class="circular-img"
+                  [src]="
+                    'https://image.tmdb.org/t/p/w500' + actor.profile_path ||
+                    '../../../assets/no-image-available.png'
+                  "
+                  alt="{{ actor.name }} profile"
+                />
+              </ng-container>
+              <ng-container *ngIf="actor.profile_path === null">
+                <img
+                  class="circular-img"
+                  src="../../assets/no-image-available.png"
+                  alt="Imagen alternativa"
+                />
+              </ng-container>
+            </div>
+            <p class="actor-name">{{ actor.name }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-comments [serieId]="serieId" [username]="username"></app-comments>
+</div>

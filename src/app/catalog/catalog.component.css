@@ -2,9 +2,16 @@
   overflow: auto;
 }
 
+.imgCatalog {
+  width: 200px;
+  height: 300px;
+  margin: 5px;
+  border-radius: 5px;
+  box-shadow: 0.2px 2px 3px #407bff;
+}
+
 .modal-show {
   display: block;
-  /* otras reglas CSS para personalizar la apariencia del modal */
 }
 
 .modal {
@@ -23,11 +30,72 @@
   flex-wrap: wrap;
   flex-direction: row;
 }
+
 .modal-content {
-  /* Agrega el tamaño del modal */
   width: 100%;
-  /* Agrega un margen para separar el contenido del modal del borde */
   margin: 20px;
-  /* Agrega un fondo blanco para el contenido del modal */
   background-color: #fff;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-link {
+  background: #d1d8fd;
+  padding: 10px;
+  margin: 15px;
+  border-radius: 7px;
+}
+
+.modal {
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.searchResults {
+  overflow-y: auto;
+  max-height: 200px;
+  margin-bottom: 1rem;
+}
+
+.listSearch {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.listSearch-item {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.custom-select {
+  padding: 7px 40px 7px 12px;
+  border: 1px solid #3e5dfc;
+  border-radius: 5px;
+  background: white;
+  box-shadow: 0 1px 3px -2px #3e5dfc;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 16px;
 }

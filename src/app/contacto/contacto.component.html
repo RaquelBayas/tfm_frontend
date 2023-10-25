@@ -1,0 +1,54 @@
+<div class="container">
+  <h2>Formulario de contacto</h2>
+  <form (ngSubmit)="submitForm()">
+    <div class="mb-3">
+      <label for="name" class="form-label">Nombre</label>
+      <input
+        type="text"
+        class="form-control"
+        id="name"
+        placeholder="Ingrese su nombre"
+        [(ngModel)]="formData.name"
+        name="name"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Correo electrónico</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        placeholder="Ingrese su correo electrónico"
+        [(ngModel)]="formData.email"
+        name="email"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="subject" class="form-label">Asunto</label>
+      <input
+        type="text"
+        class="form-control"
+        id="subject"
+        placeholder="Ingrese el asunto del mensaje"
+        [(ngModel)]="formData.subject"
+        name="subject"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="message" class="form-label">Mensaje</label>
+      <textarea
+        class="form-control"
+        id="message"
+        rows="5"
+        placeholder="Ingrese el contenido del mensaje"
+        [(ngModel)]="formData.message"
+        name="message"
+        required
+      ></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar mensaje</button>
+  </form>
+</div>

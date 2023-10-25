@@ -1,0 +1,12 @@
+<div class="custom-dialog">
+    <button mat-button (click)="closeDialog()">Cerrar</button>
+
+    <div *ngIf="people && people.length > 0">
+      <div *ngFor="let follower of people">
+        <div class="follower-card">
+          <p class="follower-username" [routerLink]="['/profile', follower.username?.username]">{{ follower.username?.username }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  

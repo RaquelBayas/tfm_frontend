@@ -1,18 +1,100 @@
-<div>
-  <h1>Listas</h1>
-  <button [routerLink]="['/listForm']">Crear lista</button>
-  <div class="container">
-    <div class="row" *ngFor="let list of lists" >
-      <h3>{{ list.title }}</h3>
-      <p>{{ list.description }}</p>
-      <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
-        <div *ngFor="let movie of list.selectedMovies" class="movie">
-          <div>
-            <p>{{ movie.title }}</p>
-            <img *ngIf="movie.poster_path" [src]="movie.poster_path" alt="{{ movie.title }}" />
+<div class="container">
+  <div class="containerHeader">
+    <h1>Listas</h1>
+    <app-button label="Crear lista" [routerLink]="['/listForm']"></app-button>
+  </div>
+  <div class="container col-md-12">
+    <div class="row containerList" *ngFor="let list of lists">
+      <div class="list-header">
+        <div class="list-header-data">
+          <h1>{{ list.title }}</h1>
+          <h3>{{ list.description }}</h3>
+        </div>
+        <div class="list-header-btn">
+          <app-button
+              label="Añadir elemento"
+              (clicked)="openModal(list.id)"
+            ></app-button>
+          <app-button
+            label="Eliminar lista"
+            (clicked)="deleteList(list.id)"
+          ></app-button>
+        </div>
+      </div>
+      <div class="contentContainer">
+        <div *ngFor="let content of list.selectedContent" class="swiper-slide">
+          <app-card
+            class="card-container"
+            [data]="content"
+            [source]="listSource"
+            (click)="openMenu(content)"
+          ></app-card>
+          <div *ngIf="isMenuOpen(content)" class="menu-container"> 
+            <button type="button" class="btn btn-primary deleteBtn" (click)="removeFromList(list, content)">Eliminar</button>
           </div>
         </div>
-      </ngx-slick-carousel>      
+      </div>
+      <div
+        class="modal bd-example-modal-lg custom-modal"
+        role="dialog"
+        *ngIf="modalIsOpen"
+        [ngClass]="{ 'modal-show': modalIsOpen }"
+      >
+        <div id="modal" class="modal-dialog modal-lg modalAdd">
+          <div class="modal-content">
+            <span class="close" (click)="closeModal()">&times;</span>
+            <mat-form-field>
+              <input
+                matInput
+                #searchQuery
+                (keyup)="searchMovies($event)"
+                placeholder="Search..."
+              />
+            </mat-form-field>
+            <div class="searchResults">
+              <ul class="listSearch">
+                <li *ngFor="let movie of searchResults" class="listSearch-item">
+                  <input
+                  type="radio"
+                  class="radioButton"
+                  [value]="movie"
+                  [checked]="isSelected(movie)"
+                  (change)="onSelect(movie)"
+                  name="selectedMovie"
+                />
+                  <img
+                    *ngIf="movie.poster_path; else alternateImage"
+                    [src]="imgUrl + movie.poster_path"
+                    alt="Movie Poster"
+                    style="width: 50px; height: auto"
+                  />
+                  <ng-template #alternateImage>
+                    <img
+                      src="../../assets/no-image-available.png"
+                      alt="Alternate Image"
+                      style="width: 50px; height: auto"
+                    />
+                  </ng-template>
+                  <p *ngIf="movie.title; else serieTemplate">
+                    {{ movie.title }}
+                  </p>
+                  <ng-template #serieTemplate>{{ movie.name }}</ng-template>
+                </li>
+              </ul>
+            </div>
+            <div class="btnSave">
+              <button class="btn btn-primary" (click)="addToList(listId)">
+                Guardar
+              </button>
+            </div>
+            <div id="movieDetails">
+              <img id="moviePoster" src="" alt="" />
+              <h3 id="movieTitle"></h3>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+

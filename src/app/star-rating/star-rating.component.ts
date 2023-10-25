@@ -3,10 +3,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 @Component({
   selector: 'app-star-rating',
   templateUrl: './star-rating.component.html',
-  styleUrls: ['./star-rating.component.css']
+  styleUrls: ['./star-rating.component.css'],
 })
 export class StarRatingComponent implements OnInit {
-
   @Input() maxRating = 5;
   maxRatingArr: any = [];
   @Input() selectedStar: number = 0;
@@ -14,7 +13,8 @@ export class StarRatingComponent implements OnInit {
 
   @Input() reviewRating!: number;
   @Output() onRating: EventEmitter<number> = new EventEmitter<number>();
-  
+  @Input() disabled: boolean = false;
+
   constructor() {}
 
   ngOnInit() {
@@ -27,17 +27,16 @@ export class StarRatingComponent implements OnInit {
   }
 
   HandleMouseLeave(index: number) {
-    if(this.previousSelection!==0) {
+    if (this.previousSelection !== 0) {
       this.selectedStar = this.previousSelection;
     } else {
       this.selectedStar = 0;
     }
   }
 
-  rating(index:number) {
+  rating(index: number) {
     this.selectedStar = index + 1;
     this.previousSelection = this.selectedStar;
-    this.onRating.emit(this.selectedStar);  
+    this.onRating.emit(this.selectedStar);
   }
-
 }

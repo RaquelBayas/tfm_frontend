@@ -1,21 +1,43 @@
 .container {
   display: flex;
-  height: 100vh;
+  flex-wrap: wrap;
+}
+
+.containerForm {
+  flex: 1;
+  height: 90%;
   border-radius: 10px;
   background-color: white;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
 }
 
-
 .list-form {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  width: 50%;
   padding: 20px;
   border-radius: 10px;
   background-color: white;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.searchResults {
+  overflow-y: auto;
+  max-height: 200px;
+  margin-bottom: 1rem;
+}
+
+.listSearch {
+  list-style: none;
+}
+
+.checkboxSquare {
+  margin-right: 10px;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
 }
 
 .privacy-radio-group {
@@ -28,28 +50,24 @@
   margin-top: 20px;
 }
 
-.checkboxSquare {
-  float: right;
+.contentName {
+  white-space: nowrap;
 }
 
-.searchResults {
-  height: 30vh;
-  overflow-y: auto;
-}
-
-.selectedMoviesContainer {
- width: 50%;
- border-radius: 10px;
-  background-color: white;
+.selectedContentContainer {
+  flex-basis: 50%;
+  border-radius: 10px;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
-.selectedMovieImg{
+.selectedMovieImg {
   width: 100px;
-
 }
 
-ul.selectedMoviesList {
-  height: 90%;
+ul.selectedContentList {
   overflow-y: auto;
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
 }

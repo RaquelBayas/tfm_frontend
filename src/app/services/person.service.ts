@@ -4,16 +4,16 @@ import { Observable, map } from 'rxjs';
 import { environment } from 'src/environments';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PersonService {
   private baseUrl = 'https://api.themoviedb.org/3';
 
   constructor(private http: HttpClient) {}
-  
+
   //Buscar una persona
-  searchPeople(query: string): Observable<any> {
-    const url = `${this.baseUrl}/search/person?api_key=${environment.apiKey}&query=${query}`;
+  searchPeople(query: string, page: number): Observable<any> {
+    const url = `${this.baseUrl}/search/person?api_key=${environment.apiKey}&query=${query}&language=es${page}`;
     return this.http.get(url);
   }
 
@@ -22,9 +22,11 @@ export class PersonService {
   }
 
   getPopularPeopleDetails(id: any): Observable<any> {
-    return this.http.get(`${this.baseUrl}/person/${id}`).pipe((map((response) => {
-      return response;
-    })));
+    return this.http.get(`${this.baseUrl}/person/${id}`).pipe(
+      map((response) => {
+        return response;
+      })
+    );
   }
 
   getPersonDetails(url: any): Observable<any> {
@@ -46,5 +48,4 @@ export class PersonService {
   getPersonCredits(url: any): Observable<any> {
     return this.http.get(url);
   }
-
 }

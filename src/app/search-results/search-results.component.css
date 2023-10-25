@@ -1,5 +1,29 @@
-.searchResultsPeople, .searchResultsMovies, .searchResultsSeries {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
+.searchResultsPeople,
+.searchResultsMovies,
+.searchResultsSeries,
+.searchResultsUsers {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.card {
+  width: 10rem;
+}
+
+.card img {
+  margin: 1rem;
+}
+
+.card-body {
+  text-align: center;
+}
+
+.card-body h2 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
 }

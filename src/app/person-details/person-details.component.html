@@ -1,38 +1,105 @@
-<div>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-2" *ngIf="person">
-        <img
-          src="{{ imgUrl + person.profile_path }}"
-          alt="{{ person.name }}"
-          class="mx-auto d-block"
-        />
-      </div>
-      <div class="col-md-8">
-        <h2>{{ person.name }}</h2>
-        <p>{{ person.biography }}</p>
-        <p>Fecha de nacimiento: {{ person.birthday }}</p>
-        <p>Lugar de nacimiento: {{ person.place_of_birth }}</p>
-        <p *ngIf="person.deathday != null">Fecha de fallecimiento: {{ person.deathday }}</p>
-        <p>Redes sociales: </p>
-        <ul class="list-unstyled">
-          <li *ngIf="socialNetworks.facebook_id"><a href="https://www.facebook.com/{{ socialNetworks.facebook_id }}" target="_blank">Facebook</a></li>
-          <li *ngIf="socialNetworks.instagram_id"><a href="https://www.instagram.com/{{ socialNetworks.instagram_id }}" target="_blank">Instagram</a></li>
-          <li *ngIf="socialNetworks.twitter_id"><a href="https://twitter.com/{{ socialNetworks.twitter_id }}" target="_blank">Twitter</a></li>
-        </ul>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <div class="container-content">
+        <div class="row">
+          <div class="col-xl-4 col-md-4" *ngIf="person">
+            <img
+              [src]="
+                person.profile_path
+                  ? imgUrl + person.profile_path
+                  : 'assets/no-image.png'
+              "
+              alt="{{ person.name }}"
+              class="mx-auto d-block imgContent"
+            />
+          </div>
+          <div class="col-xl-8 col-md-8">
+            <h2>{{ person?.name }}</h2>
+            <div class="biography">
+              <p *ngFor="let paragraph of getBiography(person?.biography)">
+                {{ paragraph }}
+              </p>
+            </div>
+            <p>
+              <b>Fecha de nacimiento:</b>
+              {{
+                person?.birthday
+                  ? person.birthday
+                  : "No tenemos datos acerca de su fecha de nacimiento"
+              }}
+            </p>
+            <p>
+              <b>Lugar de nacimiento:</b>
+              {{
+                person?.place_of_birth
+                  ? person.place_of_birth
+                  : "No tenemos datos acerca de su lugar de nacimiento"
+              }}
+            </p>
+
+            <p *ngIf="person?.deathday != null">
+              <b>Fecha de fallecimiento:</b> {{ person?.deathday }}
+            </p>
+            <ul class="list-socialNetworks">
+              <li *ngIf="socialNetworks?.facebook_id">
+                <a
+                  href="https://www.facebook.com/{{
+                    socialNetworks.facebook_id
+                  }}"
+                  target="_blank"
+                >
+                  <img
+                    src="assets/facebook.png"
+                    alt="Facebook"
+                    width="40px"
+                    height="40px"
+                  />
+                </a>
+              </li>
+              <li *ngIf="socialNetworks?.instagram_id">
+                <a
+                  href="https://www.instagram.com/{{
+                    socialNetworks.instagram_id
+                  }}"
+                  target="_blank"
+                >
+                  <img
+                    src="assets/instagram.png"
+                    alt="Instagram"
+                    width="40px"
+                    height="40px"
+                  />
+                </a>
+              </li>
+              <li *ngIf="socialNetworks?.twitter_id">
+                <a
+                  href="https://twitter.com/{{ socialNetworks.twitter_id }}"
+                  target="_blank"
+                >
+                  <img
+                    src="assets/twitter.png"
+                    alt="Twitter"
+                    width="50px"
+                    height="40px"
+                  />
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div>
-    <h5 class="text-center" style="color: red">Movies Acted</h5>
-    <div class="container-credits">
-       <div class="person" *ngFor="let credit of credits.cast">
-      <app-card [data]="credit"></app-card>
+  <div class="row justify-content-center">
+    <div class="container">
+      <h2 class="text-center">PELÍCULAS Y SERIES</h2>
+      <div class="container-credits">
+        <div class="person" *ngFor="let credit of credits.cast">
+          <app-card [data]="credit"></app-card>
+        </div>
+      </div>
     </div>
-    </div>
-   
   </div>
-
-
-
+  <div class="container"></div>
 </div>

@@ -1,0 +1,27 @@
+<div class="container">
+  <p>Lista de usuarios registrados</p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre de usuario</th>
+        <th>Email</th>
+        <th>Fecha de creación</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.createdAt | date }}</td>
+        <td>
+          <mat-select>
+            <mat-option (click)="deleteUser(user.id)">Eliminar</mat-option>
+          </mat-select>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

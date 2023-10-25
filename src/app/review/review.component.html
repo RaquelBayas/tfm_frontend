@@ -1,34 +1,77 @@
 <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header">
-      <h2>{{ movie.title }}</h2>
-      <div *ngIf="reviewExist === true else reviewCreate">
-        <app-star-rating [reviewRating]="review.rating" (onRating)="onRatingSelected($event)"></app-star-rating>
+      <h2 [routerLink]="getContentType(content)">{{ content.title }}</h2>
+      <div *ngIf="reviewExist && !editingReview">
+        <app-star-rating
+          [reviewRating]="review.rating"
+          [disabled]="disabledRating"
+        ></app-star-rating>
       </div>
-      <ng-template #reviewCreate>
-        <app-star-rating (onRating)="onRatingSelected($event)"></app-star-rating>
-      </ng-template>
-
+      <div *ngIf="!reviewExist">
+        <app-star-rating
+          *ngIf="userData.id === viewerUserId"
+          (onRating)="onRatingSelected($event)"
+        ></app-star-rating>
+      </div>
+      <div *ngIf="editingReview">
+        <app-star-rating
+          *ngIf="userData.id === viewerUserId"
+          (onRating)="onRatingSelected($event)"
+        ></app-star-rating>
+      </div>
     </div>
     <div class="modal-body">
-      <img [src]="movie.imageUrl" alt="" />
-      <div >
-        <form #reviewForm="ngForm">
-          <div class="form-group">
-            <label for="comment">Comment:</label>
-            <textarea
-              class="form-control"
-              rows="5"
-              id="comment"
-              name="comment"
-              [(ngModel)]="review.comment"
-            ></textarea>
+      <div class="row">
+        <div class="col-md-4">
+          <img class="reviewImg" [src]="content.imageUrl" alt="content.title" />
+        </div>
+        <div class="col-md-8">
+          <div class="row">
+            <p>{{ contentDescription }}</p>
           </div>
-        </form>
-      </div>
-
-      <div *ngIf="review">
-        <p>Comment: {{ review.comment }}</p>
+          <div *ngIf="reviewExist" class="commentReview">
+            <ng-container
+              *ngIf="
+                editingReview && viewerUserId === userData.id;
+                else readOnlyView
+              "
+            >
+              <form #reviewForm="ngForm">
+                <div class="form-group">
+                  <label for="comment">Comment:</label>
+                  <textarea
+                    class="form-control"
+                    rows="5"
+                    id="comment"
+                    name="comment"
+                    [(ngModel)]="comment"
+                  ></textarea>
+                </div>
+              </form>
+            </ng-container>
+            <ng-template #readOnlyView>
+              <p>{{ review.comment }}</p>
+            </ng-template>
+          </div>
+          <div
+            *ngIf="!reviewExist && viewerUserId === userData.id"
+            class="commentReview"
+          >
+            <form #reviewForm="ngForm">
+              <div class="form-group">
+                <label for="comment">Comment:</label>
+                <textarea
+                  class="form-control"
+                  rows="5"
+                  id="comment"
+                  name="comment"
+                  [(ngModel)]="comment"
+                ></textarea>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
     <div class="modal-footer">
@@ -41,8 +84,25 @@
         Close
       </button>
       <button
+        *ngIf="!reviewExist && !editingReview && viewerUserId === userData.id"
         type="submit"
         (click)="createReview()"
+        class="btn btn-primary float-right"
+      >
+        Save changes
+      </button>
+      <button
+        *ngIf="reviewExist && !editingReview && viewerUserId === userData.id"
+        type="button"
+        (click)="enterEditMode()"
+        class="btn btn-primary float-right"
+      >
+        Edit review
+      </button>
+      <button
+        *ngIf="editingReview"
+        type="submit"
+        (click)="editReview()"
         class="btn btn-primary float-right"
       >
         Save changes

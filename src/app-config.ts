@@ -1,16 +1,14 @@
 import { environment } from "./environments";
 
 export default {
+  backend: {
+    backendUrl: 'http://localhost:8080/'
+  },
   tmdb: {
     apikey: environment.apiKey,
     apiUrl: 'https://api.themoviedb.org/3/',
-    tvshowBaseUrl: 'https://api.themoviedb.org/3/discover/tv?',
-    tvshowDetailsBaseUrl: 'https://api.themoviedb.org/3/tv/',
     personBaseUrl: 'https://api.themoviedb.org/3/person/',
-    imgUrl: 'https://image.tmdb.org/t/p/w200',
-    highQualityImgUrl: 'https://image.tmdb.org/t/p/original',
-    videoUrl: 'https://www.youtube.com/embed/',
-    thumbnailUrl:'https://img.youtube.com/vi/',
+    imgUrl: 'https://image.tmdb.org/t/p/w1280',
     genreUrl:'https://api.themoviedb.org/3/genre/'
   },
 };

@@ -1,62 +1,102 @@
 <div class="container" (infiniteScroll)="onScroll()">
+  <div class="text-center" *ngIf="source !== 'lists'">
+    <button type="button" class="btn btn-secondary" (click)="restoreCatalog()">
+      Reestablecer catálogo
+    </button>
+    <button class="btn btn-secondary" (click)="sortContentAtoZ()">
+      Ordenar A-Z
+    </button>
+    <button class="btn btn-secondary" (click)="sortContentZtoA()">
+      Ordenar Z-A
+    </button>
+
+    <select
+      class="custom-select"
+      [(ngModel)]="selectedGenreMovies"
+      (change)="getMoviesBySelectedGenre()"
+    >
+      <option [ngValue]="" disabled selected>Filtrar películas</option>
+      <option *ngFor="let genre of genresMovies" [value]="genre.name">
+        {{ genre.name }}
+      </option>
+    </select>
+    <select
+      class="custom-select"
+      [(ngModel)]="selectedGenreSeries"
+      (change)="getSeriesBySelectedGenre()"
+    >
+      <option [ngValue]="" disabled selected>Filtrar series</option>
+      <option *ngFor="let genre of genresSeries" [value]="genre.name">
+        {{ genre.name }}
+      </option>
+    </select>
+  </div>
   <div class="row justify-content-around">
-    <div *ngFor="let movie of movies" class="col-md">
+    <div *ngFor="let item of content" class="col-md">
       <div>
-        <ng-container *ngIf="this.source === 'lists'; else routerLinkTemplate">
-          <a (click)="openModal()">
-            <img [src]="movie.imageUrl" alt="" />
+        <ng-container *ngIf="source === 'lists'; else template2">
+          <a (click)="item.modalIsOpen = true">
+            <img class="imgCatalog" [src]="item.imageUrl" alt="" />
           </a>
         </ng-container>
         <div
           class="modal bd-example-modal-lg"
           role="dialog"
-          *ngIf="modalIsOpen"
-          [ngClass]="{ 'modal-show': modalIsOpen }"
+          *ngIf="item.modalIsOpen"
+          [ngClass]="{ 'modal-show': item.modalIsOpen }"
         >
-        <app-review [movie]="movie" (closeModal)="closeModal()"></app-review>
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h2>{{ movie.title }}</h2>
-                <app-star-rating></app-star-rating>
-              </div>
-
-              <div class="modal-body">
-                <img [src]="movie.imageUrl" alt="" />
-                <form>
-                  <div class="form-group">
-                    <label for="comment">Comment:</label>
-                    <textarea
-                      class="form-control"
-                      rows="5"
-                      id="comment"
-                    ></textarea>
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  (click)="closeModal()"
-                  data-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="submit" class="btn btn-primary float-right">
-                  Save changes
-                </button>
-              </div>
-            </div>
-          </div>
+          <app-review
+            [content]="item"
+            [listId]="listId"
+            [viewerUserId]="viewerId"
+            (closeModal)="item.modalIsOpen = false"
+          ></app-review>
         </div>
-        <ng-template #routerLinkTemplate>
-          <a [routerLink]="['/item', movie.id]">
-            <img [src]="movie.imageUrl" alt="" />
-          </a>
+        <ng-template #template2>
+          <ng-container
+            *ngIf="item.name; then serieTemplate; else movieTemplate"
+          ></ng-container>
+          <ng-template #serieTemplate>
+            <a [routerLink]="['/content/series', item.id]">
+              <img class="imgCatalog" [src]="item.imageUrl" alt="" />
+            </a>
+          </ng-template>
+          <ng-template #movieTemplate>
+            <a [routerLink]="['/content/movies', item.id]">
+              <img class="imgCatalog" [src]="item.imageUrl" alt="" />
+            </a>
+          </ng-template>
         </ng-template>
       </div>
-      <br />
     </div>
   </div>
+  <br />
+  <nav aria-label="Page navigation">
+    <ul class="pagination" *ngIf="totalPages > 1">
+      <li class="page-item">
+        <button
+          class="page-link"
+          [disabled]="currentPage === 1"
+          (click)="goToPreviousPage()"
+        >
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Anterior</span>
+        </button>
+      </li>
+      <li class="page-item">
+        <span>{{currentPage}}</span>
+      </li>
+      <li class="page-item">
+        <button
+          class="page-link"
+          [disabled]="currentPage === totalPages"
+          (click)="goToNextPage()"
+        >
+          <span class="sr-only">Siguiente</span>
+          <span aria-hidden="true">&raquo;</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+  <br />
 </div>

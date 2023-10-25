@@ -1,17 +1,73 @@
-
-<mat-toolbar color="primary">MyList
-    <div class="space"></div>
-    <a mat-button routerLink="/">Inicio</a>
-    <a mat-button routerLink="catalog" (click)="onClickCatalog()">Catálogo</a>
-    <a mat-button routerLink="lists">Listas</a>
-    <input type="search" placeholder="Buscar" [(ngModel)]="searchTerm" (keyup.enter)="search()">
-    
-    <a mat-button *ngIf="isLoggedIn" [matMenuTriggerFor]="menu">Perfil</a>
-    <mat-menu #menu="matMenu">
-        <button mat-menu-item routerLink="profile/{{username}}">Perfil</button>
-        <button mat-menu-item routerLink="settings">Ajustes</button>
-        <button mat-menu-item (click)="logout()">Cerrar sesión</button>
+<nav class="navbar navbar-expand-lg toolbarNavbar">
+  <a class="navbar-brand" [routerLink]="isLoggedIn ? '/home-user' : '/'">
+    <img
+      src="../../assets/Logo.png"
+      alt="Logo MyList"
+      class="logo-image"
+      style="width: 90px"
+    />
+  </a>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#navbarNav"
+    aria-controls="navbarNav"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+    (click)="togglenav()"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div
+    class="collapse navbar-collapse"
+    id="navbarNav"
+    [ngClass]="{ show: isNavOpen }"
+  >
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" *ngIf="!isLoggedIn">
+        <a class="nav-link" mat-button [routerLink]="'/'">Inicio</a>
+      </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a class="nav-link" mat-button [routerLink]="'home-user'">Inicio</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" mat-button [routerLink]="'catalog'">Catálogo</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" mat-button (click)="goToLists()">Listas</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input
+        class="form-control mr-sm-2"
+        type="search"
+        placeholder="Buscar"
+        [(ngModel)]="searchTerm"
+        name="searchTerm"
+        (keyup.enter)="search()"
+      />
+    </form>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" *ngIf="!isLoggedIn">
+        <a class="nav-link" mat-button [routerLink]="'register'">Cuenta</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <button
+        *ngIf="isLoggedIn"
+        mat-button
+        [matMenuTriggerFor]="menu"
+        (click)="navigateToProfile()"
+      >
+        Perfil
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item [routerLink]="'settings'">Ajustes</button>
+        <button mat-menu-item (click)="logout()" [routerLink]="'register'">
+          Cerrar sesión
+        </button>
       </mat-menu>
-    <a mat-button *ngIf="!isLoggedIn" routerLink="register">Cuenta</a>
-</mat-toolbar>
-
+    </ul>
+  </div>
+</nav>

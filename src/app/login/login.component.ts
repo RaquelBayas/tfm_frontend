@@ -17,6 +17,8 @@ import { AuthService } from '../services/auth.service';
 })
 export class LoginComponent {
   public loginForm!: FormGroup;
+  spinner: boolean = false;
+  showAlert: boolean = false;
 
   constructor(
     private builder: FormBuilder,
@@ -37,24 +39,28 @@ export class LoginComponent {
 
   login() {
     if (this.loginForm.valid) {
+      this.spinner = true;
       const user = {
         username: this.loginForm.value.username,
         password: this.loginForm.value.password,
       };
       this.userService.login(user).subscribe(
         (msg) => {
-          console.log("data:",msg.auth_token);
-          this.cookieService.set('token',msg.auth_token);
+          this.spinner = false;
+          this.cookieService.set('token', msg.auth_token);
+          this.cookieService.set('currentUser', JSON.stringify(user));
           this.authService.setToken(msg.auth_token);
           this.router.navigate(['/home-user']);
           console.log('Login: successful');
         },
         (err) => {
+          this.spinner = false;
+          this.showAlert = true;
           console.log(err);
-          console.log('Login ERROR');
         }
       );
     } else {
+      this.showAlert = true;
       console.log('Login: error');
     }
   }

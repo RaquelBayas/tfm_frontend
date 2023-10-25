@@ -1,4 +1,22 @@
 .space {
-    flex: 1 1 auto;
+  flex: 1 1 auto;
 }
 
+div#navbarNav {
+  justify-content: flex-end;
+  margin-right: 5rem;
+}
+
+.navbar-brand {
+  margin-left: 5rem;
+}
+
+.toolbarNavbar {
+  background-color: white;
+  border-bottom: 1px solid #6277df;
+  box-shadow: 0px 3px 3px 0px #6277df85;
+}
+
+.navbar-expand-lg.navbar-collapse {
+  align-items: flex-end;
+}
