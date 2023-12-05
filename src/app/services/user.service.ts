@@ -19,7 +19,8 @@ import { environment } from 'src/environments';
   providedIn: 'root',
 })
 export class UserService {
-  apiUrl =  `${appConfig.backend.backendUrl}/api`//'http://localhost:8080/api';
+  apiUrl =  `${appConfig.backend.backendUrl}/api`;//'http://localhost:8080/api';
+  
   token!: string;
 
   constructor(
@@ -32,7 +33,7 @@ export class UserService {
 
   login(user: any): Observable<any> {
     return this.http
-      .post<User>(`${appConfig.backend.backendUrl}api/auth/signin`, user)
+      .post<User>(`${appConfig.backend.backendUrl}/api/auth/signin`, user)
       .pipe(
         tap((response: any) => {
           this.cookieService.set('token', response.token);
@@ -42,7 +43,7 @@ export class UserService {
 
   register(user: User): Observable<User> {
     return this.http.post<User>(
-      `${appConfig.backend.backendUrl}api/auth/signup`,
+      `${appConfig.backend.backendUrl}/api/auth/signup`,
       user
     );
   }
@@ -53,7 +54,7 @@ export class UserService {
         if (response.available) {
           console.log('user disponible');
           return this.http.post<User>(
-            `${appConfig.backend.backendUrl}api/signup`,
+            `${appConfig.backend.backendUrl}/api/signup`,
             { user }
           );
         } else {
@@ -65,7 +66,7 @@ export class UserService {
 
   checkUsernameAvailability(username: string): Observable<any> {
     return this.http
-      .get(`${appConfig.backend.backendUrl}api/users?username=${username}`)
+      .get(`${appConfig.backend.backendUrl}/api/users?username=${username}`)
       .pipe(
         map((response: any) => {
           console.log('checkUser: ' + response);
@@ -79,7 +80,7 @@ export class UserService {
   }
 
   getProfileImage(userId: number): Observable<Blob> {
-    const apiUrl = `${appConfig.backend.backendUrl}api/users/${userId}/profileImg`;
+    const apiUrl = `${appConfig.backend.backendUrl}/api/users/${userId}/profileImg`;
     return this.http.get(apiUrl, { responseType: 'blob' }).pipe(
       catchError((error: any) => {
         if (error.status === 404) {
@@ -103,14 +104,14 @@ export class UserService {
       Authorization: 'Bearer ' + this.authService.getToken(),
     });
     return this.http.get<User>(
-      `${appConfig.backend.backendUrl}api/users/${username}`,
+      `${appConfig.backend.backendUrl}/api/users/${username}`,
       { headers }
     );
   }
 
   getUsernameByID(id: number): Observable<string> {
     return this.http.get<string>(
-      `${appConfig.backend.backendUrl}api/users/${id}/username`
+      `${appConfig.backend.backendUrl}/api/users/${id}/username`
     );
   }
 
@@ -118,7 +119,7 @@ export class UserService {
     return this.checkUsernameAvailability(username).pipe(
       switchMap((response: any) => {
         // Si el nombre de usuario está disponible, procede con la actualización
-        const updateUrl = `${appConfig.backend.backendUrl}api/users/${userId}`;
+        const updateUrl = `${appConfig.backend.backendUrl}/api/users/${userId}`;
         const updateBody = { username: username };
         return this.http.put(updateUrl, updateBody);
       }),
@@ -130,48 +131,48 @@ export class UserService {
 
   updateEmail(email: string, userId: number): Observable<any> {
     return this.http.post(
-      `${appConfig.backend.backendUrl}api/users/${userId}/updateEmail`,
+      `${appConfig.backend.backendUrl}/api/users/${userId}/updateEmail`,
       { newEmail: email }
     );
   }
 
   updatePassword(password: string, newPassword: string, userId: number) {
     return this.http.post(
-      `${appConfig.backend.backendUrl}api/users/${userId}/updatePassword`,
+      `${appConfig.backend.backendUrl}/api/users/${userId}/updatePassword`,
       { oldPassword: password, newPassword: newPassword }
     );
   }
 
   getUsers(): Observable<any> {
-    return this.http.get<any[]>(`${appConfig.backend.backendUrl}api/users`);
+    return this.http.get<any[]>(`${appConfig.backend.backendUrl}/api/users`);
   }
 
   searchUsersByUsername(username: string): Observable<any[]> {
-    return this.http.get<any[]>(`${appConfig.backend.backendUrl}api/users`, {
+    return this.http.get<any[]>(`${appConfig.backend.backendUrl}/api/users`, {
       params: { username },
     });
   }
 
   getFollowers(userId: number): Observable<any> {
     return this.http.get(
-      `${appConfig.backend.backendUrl}follow/${userId}/followersTotal`
+      `${appConfig.backend.backendUrl}/follow/${userId}/followersTotal`
     );
   }
 
   getFollowersList(userId: number): Observable<any> {
     return this.http.get<any[]>(
-      `${appConfig.backend.backendUrl}follow/${userId}/followersList`
+      `${appConfig.backend.backendUrl}/follow/${userId}/followersList`
     );
   }
 
   getFollowingList(userId: number): Observable<any> {
     return this.http.get<any[]>(
-      `${appConfig.backend.backendUrl}follow/${userId}/followingList`
+      `${appConfig.backend.backendUrl}/follow/${userId}/followingList`
     );
   }
 
   verifyPassword(password: string, userId: number): Observable<any> {
-    return this.http.post(`${appConfig.backend.backendUrl}api/auth/${userId}`, {
+    return this.http.post(`${appConfig.backend.backendUrl}/api/auth/${userId}`, {
       password,
     });
   }
