@@ -13,12 +13,13 @@ import {
 import { CookieService } from 'ngx-cookie-service';
 import appConfig from 'src/app-config';
 import { AuthService } from './auth.service';
+import { environment } from 'src/environments';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  apiUrl = 'http://localhost:8080/api';
+  apiUrl =  `${appConfig.backend.backendUrl}/api`//'http://localhost:8080/api';
   token!: string;
 
   constructor(

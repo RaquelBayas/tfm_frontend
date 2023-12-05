@@ -1,19 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
+import appConfig from 'src/app-config';
 import { environment } from 'src/environments';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PersonService {
-  private baseUrl = 'https://api.themoviedb.org/3';
+  private baseUrl = `${appConfig.tmdb.apiUrl}`;
 
   constructor(private http: HttpClient) {}
 
   //Buscar una persona
   searchPeople(query: string, page: number): Observable<any> {
-    const url = `${this.baseUrl}/search/person?api_key=${environment.apiKey}&query=${query}&language=es${page}`;
+    const url = `${this.baseUrl}search/person?api_key=${environment.apiKey}&query=${query}&language=es${page}`;
     return this.http.get(url);
   }
 
@@ -22,7 +23,7 @@ export class PersonService {
   }
 
   getPopularPeopleDetails(id: any): Observable<any> {
-    return this.http.get(`${this.baseUrl}/person/${id}`).pipe(
+    return this.http.get(`${this.baseUrl}person/${id}`).pipe(
       map((response) => {
         return response;
       })

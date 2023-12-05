@@ -35,7 +35,7 @@ export class SeriesService {
   }
 
   getSeriesByGenreTitleAsc(genre: string, page: number): Observable<any> {
-    const url = `${appConfig.tmdb.apiUrl}discover/tv??sort_by=original_title&api_key=${environment.apiKey}&with_genres=${genre}&page=${page}`;
+    const url = `${appConfig.tmdb.apiUrl}discover/tv?sort_by=original_title&api_key=${environment.apiKey}&with_genres=${genre}&page=${page}`;
     return this.http.get(url);
   }
 

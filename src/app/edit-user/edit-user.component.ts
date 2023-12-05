@@ -48,6 +48,7 @@ export class EditUserComponent implements OnInit {
     const file = event.target.files[0];
     const formData = new FormData();
     formData.append('profileImg', file);
+    console.log(formData);
 
     const ruta =
       appConfig.backend.backendUrl +

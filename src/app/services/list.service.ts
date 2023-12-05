@@ -12,7 +12,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class ListService implements OnInit {
-  apiUrl = 'http://localhost:8080';
+  apiUrl = `${appConfig.backend.backendUrl}`;
   apiTmdbUrl = 'https://api.themoviedb.org/3';
   token!: string;
   userData!: any;
