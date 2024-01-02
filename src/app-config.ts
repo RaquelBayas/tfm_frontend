@@ -2,7 +2,7 @@ import { environment } from "./environments";
 
 export default {
   backend: {
-    backendUrl: 'https://tfm-backend-7z0x.onrender.com' //'http://localhost:8080/'
+    backendUrl: 'https://tfm-backend-jcuc.onrender.com' //'http://localhost:8080/'
   },
   tmdb: {
     apikey: environment.apiKey,
